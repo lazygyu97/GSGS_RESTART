@@ -24,6 +24,7 @@ import androidx.fragment.app.Fragment
 import com.example.gsgs_plus_final.R
 import com.example.gsgs_plus_final.request.DoingRequestActivity
 import com.example.gsgs_plus_final.vo.PickUpRequest
+import com.example.gsgs_plus_final.vo.pick_mark
 import com.example.tmaptest.data.start
 import com.example.tmaptest.retrofit.GeoCodingInterface
 import com.example.tmaptest.retrofit.RetrofitClient
@@ -53,13 +54,14 @@ class HomeFragment_1 : Fragment(), TMapGpsManager.onLocationChangedCallback {
     private var viewProfile: View? = null
     var pickImageFromAlbum = 0
     private lateinit var location: Location
-
+    val db = Firebase.firestore
     lateinit var mainActivity: MainActivity
     private lateinit var auth: FirebaseAuth
     private lateinit var retrofit: Retrofit
     private lateinit var supplementService: GeoCodingInterface
     private  val tm =Timer()
-
+    var picker_get_loc = ArrayList<pick_mark>()
+    val docRef2 = db.collection("pickers")
     var tmapView: TMapView? = null
     var tmap: TMapGpsManager? = null
 
@@ -87,6 +89,25 @@ class HomeFragment_1 : Fragment(), TMapGpsManager.onLocationChangedCallback {
         savedInstanceState: Bundle?
     ): View? {
 
+        fun get_picker_x_y() {
+            docRef2.get().addOnSuccessListener { result ->
+                for (document in result) {
+
+                    picker_get_loc.add(
+                        pick_mark(document.get("addr_x").toString(),
+                        document.get("addr_y").toString())
+                    )
+
+                }
+
+                for(i in picker_get_loc){
+                    Log.d("getX :",i.addr_x)
+                    Log.d("getY :",i.addr_y)
+                }
+
+            }
+
+        }
         //현재 실시간 위치
         fun foo() {
             println("wowowowwoo")
@@ -119,6 +140,7 @@ class HomeFragment_1 : Fragment(), TMapGpsManager.onLocationChangedCallback {
         tmapView!!.setIconVisibility(true)
         tmapView!!.setMapType(TMapView.MAPTYPE_STANDARD)
         tmapView!!.setLanguage(TMapView.LANGUAGE_KOREAN)
+        get_picker_x_y()
         maps.addView(tmapView)
 
         if (context?.let {
@@ -509,6 +531,13 @@ class HomeFragment_1 : Fragment(), TMapGpsManager.onLocationChangedCallback {
             }
         }
 
+    }
+
+    override fun onPause() {
+        super.onPause()
+        tmap!!.CloseGps()
+        Log.d("!!!!!!!!!!!!!!", tmap!!.CloseGps().toString())
+        tm.cancel()
     }
 
     override fun onDetach() {

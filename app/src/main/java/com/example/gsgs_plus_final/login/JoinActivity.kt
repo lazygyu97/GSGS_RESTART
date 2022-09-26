@@ -343,14 +343,6 @@ class JoinActivity : AppCompatActivity()  {
             }
 
         })
-
-
-
-
-
-
-
-
     }
 
 //    private fun addUserToDatabase(name: String,uid: String){
