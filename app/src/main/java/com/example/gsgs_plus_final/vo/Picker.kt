@@ -11,6 +11,9 @@ data class Picker (
 //    val card_img : String,
     val picker_addr : String,
     val bank_num : String,
-    val pick_up_list : List<String>
+    val pick_up_list : List<String>,
+    val addr_x : String,
+    val addr_y : String
+
 
 )
