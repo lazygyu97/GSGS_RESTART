@@ -4,8 +4,9 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
+import android.graphics.PointF
 import android.location.Location
-import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -13,6 +14,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import java.util.TimerTask
 import android.view.animation.AnimationUtils
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
@@ -28,7 +30,6 @@ import com.example.gsgs_plus_final.vo.pick_mark
 import com.example.tmaptest.data.start
 import com.example.tmaptest.retrofit.GeoCodingInterface
 import com.example.tmaptest.retrofit.RetrofitClient
-import com.google.android.gms.maps.SupportMapFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FieldValue
@@ -37,18 +38,25 @@ import com.google.firebase.ktx.Firebase
 import com.skt.Tmap.TMapGpsManager
 import com.skt.Tmap.TMapGpsManager.GPS_PROVIDER
 import com.skt.Tmap.TMapGpsManager.NETWORK_PROVIDER
+import com.skt.Tmap.TMapMarkerItem
+import com.skt.Tmap.TMapPoint
 import com.skt.Tmap.TMapView
+import com.skt.Tmap.TMapView.OnClickListenerCallback
+import com.skt.Tmap.poi_item.TMapPOIItem
+import okhttp3.internal.wait
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.concurrent.schedule
+import kotlin.concurrent.timerTask
+import kotlin.math.log
 import kotlin.text.Typography.tm
 
 
-class HomeFragment_1 : Fragment(), TMapGpsManager.onLocationChangedCallback {
+class HomeFragment_1 : Fragment(), TMapGpsManager.onLocationChangedCallback,
+    OnClickListenerCallback {
 
 
     private var viewProfile: View? = null
@@ -59,7 +67,8 @@ class HomeFragment_1 : Fragment(), TMapGpsManager.onLocationChangedCallback {
     private lateinit var auth: FirebaseAuth
     private lateinit var retrofit: Retrofit
     private lateinit var supplementService: GeoCodingInterface
-    private  val tm =Timer()
+    val tm = Timer()
+    private lateinit var timer: TimerTask
     var picker_get_loc = ArrayList<pick_mark>()
     val docRef2 = db.collection("pickers")
     var tmapView: TMapView? = null
@@ -94,34 +103,60 @@ class HomeFragment_1 : Fragment(), TMapGpsManager.onLocationChangedCallback {
                 for (document in result) {
 
                     picker_get_loc.add(
-                        pick_mark(document.get("addr_x").toString(),
-                        document.get("addr_y").toString())
+                        pick_mark(
+                            document.get("addr_x").toString(),
+                            document.get("addr_y").toString(),
+                            document.get("name").toString()
+                        )
                     )
 
                 }
 
-                for(i in picker_get_loc){
-                    Log.d("getX :",i.addr_x)
-                    Log.d("getY :",i.addr_y)
-                }
+                for (i in picker_get_loc) {
 
+                    val markerItem_i = TMapMarkerItem()
+
+                    val tMapPoint1 =
+                        TMapPoint(i.addr_x!!.toDouble(), i.addr_y!!.toDouble())
+
+                    val bitmap = BitmapFactory.decodeResource(
+                        requireContext().resources,
+                        R.drawable.delivery_pin
+                    )
+
+                    markerItem_i.icon = bitmap // 마커 아이콘 지정
+                    markerItem_i.setPosition(0.5f, 1.0f) // 마커의 중심점을 중앙, 하단으로 설정
+                    markerItem_i.tMapPoint = tMapPoint1 // 마커의 좌표 지정
+                    markerItem_i.canShowCallout = true;
+                    markerItem_i.calloutTitle = i.name
+
+                    tmapView!!.addMarkerItem("markerItem_" + i, markerItem_i) // 지도에 마커 추가
+
+                }
             }
 
         }
+
         //현재 실시간 위치
         fun foo() {
-            println("wowowowwoo")
+            Log.d("realtime", "wow!")
             tmapView!!.setLocationPoint(tmap!!.location.longitude, tmap!!.location.latitude)
             tmapView!!.setCenterPoint(tmap!!.location.longitude, tmap!!.location.latitude)
         }
 
-        fun main() {
-            tm.scheduleAtFixedRate( object : TimerTask() {
-                override fun run() {
-                    foo()
-                }
-            }, 2000, 1500)
+        fun createTimerTask(): TimerTask {
+            timer = timerTask { foo() }
+
+            return timer;
         }
+
+
+        fun main() {
+            timer=createTimerTask()
+            tm.schedule(timer, 1000, 1000);
+        }
+
+
         main()
 
 
@@ -143,6 +178,28 @@ class HomeFragment_1 : Fragment(), TMapGpsManager.onLocationChangedCallback {
         get_picker_x_y()
         maps.addView(tmapView)
 
+        tmapView!!.setOnClickListenerCallBack(object : OnClickListenerCallback {
+            override fun onPressUpEvent(
+                p0: ArrayList<TMapMarkerItem>?,
+                p1: ArrayList<TMapPOIItem>?,
+                point: TMapPoint?,
+                pointf: PointF?
+            ): Boolean {
+                return true
+            }
+
+            override fun onPressEvent(
+                p0: ArrayList<TMapMarkerItem>?,
+                p1: ArrayList<TMapPOIItem>?,
+                point: TMapPoint?,
+                pointf: PointF?
+            ): Boolean {
+                Log.d("dd", "dd")
+                timer.cancel()
+                return true
+            }
+        })
+
         if (context?.let {
                 ActivityCompat.checkSelfPermission(
                     it,
@@ -162,7 +219,7 @@ class HomeFragment_1 : Fragment(), TMapGpsManager.onLocationChangedCallback {
 
         tmap = TMapGpsManager(context)
         Log.d("#######", tmap!!.location.toString())
-        tmap!!.provider = GPS_PROVIDER
+        tmap!!.provider = NETWORK_PROVIDER
 
         tmap!!.minTime = 1000
         tmap!!.OpenGps()
@@ -358,14 +415,9 @@ class HomeFragment_1 : Fragment(), TMapGpsManager.onLocationChangedCallback {
         }
 
 
-//        lo_btn.setOnClickListener {
-//            Log.d("dd", tmap!!.location.toString())
-//            main()
-//            tmapView!!.setLocationPoint(tmap!!.location.longitude, tmap!!.location.latitude)
-//            tmapView!!.setCenterPoint(tmap!!.location.longitude, tmap!!.location.latitude)
-////            tmapView!!.setLocationPoint(tmap!!.location.longitude, 122.083922)
-////            tmapView!!.setCenterPoint(tmap!!.location.longitude, 122.083922)
-//        }
+        lo_btn.setOnClickListener {
+           main()
+        }
 
         pick_up_btn.setOnClickListener {
             pick_up_btn.visibility = View.INVISIBLE
@@ -545,6 +597,24 @@ class HomeFragment_1 : Fragment(), TMapGpsManager.onLocationChangedCallback {
         tmap!!.CloseGps()
         Log.d("!!!!!!!!!!!!!!", tmap!!.CloseGps().toString())
         tm.cancel()
+    }
+
+    override fun onPressEvent(
+        p0: ArrayList<TMapMarkerItem>?,
+        p1: ArrayList<TMapPOIItem>?,
+        p2: TMapPoint?,
+        p3: PointF?
+    ): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun onPressUpEvent(
+        p0: ArrayList<TMapMarkerItem>?,
+        p1: ArrayList<TMapPOIItem>?,
+        p2: TMapPoint?,
+        p3: PointF?
+    ): Boolean {
+        TODO("Not yet implemented")
     }
 
 
