@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_home"
+        android:title="홈"
+        android:icon="@drawable/ic_home"></item>
+
+    <item
+        android:id="@+id/action_use_list"
+        android:title="이용 내역"
+        android:icon="@drawable/ic_use_list"/>
+
+
+    <item
+        android:id="@+id/action_chat"
+        android:title="채팅"
+        android:icon="@drawable/ic_chat"/>
+</menu>

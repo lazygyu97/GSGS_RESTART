@@ -1,0 +1,33 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.GSGS_PLUS_FINAL" parent="Theme.AppCompat.Light">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <!-- Customize your theme here. -->
+        <item name="windowNoTitle">true</item>
+<!--        <item name="fontFamily">@font/cafe24</item>-->
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:statusBarColor">#C8C8C8</item>
+        //여기부터 text,bt,edit 설정
+        <item name="android:textViewStyle">@style/Text.Style</item>
+        <item name="android:buttonStyle">@style/Button.Style</item>
+        <item name="android:editTextStyle">@style/Edit.Style</item>
+    </style>
+    //여기는 각 유형별로 폰트 적용
+    <style name="Edit.Style" parent="android:Widget.EditText">
+        <item name="android:fontFamily">@font/nanum</item>
+    </style>
+    <style name="Text.Style" parent="android:Widget.TextView">
+        <item name="android:fontFamily">@font/cafe24</item>
+    </style>
+    <style name="Button.Style" parent="android:Widget.Button">
+        <item name="android:fontFamily">@font/cafe24</item>
+    </style>
+</resources>

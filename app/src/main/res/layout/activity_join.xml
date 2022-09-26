@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".login.JoinActivity">
+
+    <!--박현규 : 각 항목 입력후 키보드 상에서 다음 칸으로 넘어갈 수 있게 작업 완료
+                inputType:''을 이용함-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:orientation="vertical">
+
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleY="1.3"
+            android:scaleX="1.3"
+            android:src="@drawable/gsgs_logo"/>
+
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:background="@drawable/button_shape_2">
+
+        <Button
+            android:id="@+id/btn_back"
+            android:layout_marginTop="23dp"
+            android:layout_marginLeft="10dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:background="@drawable/ic_back"/>
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAlignment="center"
+                android:text="회원가입"
+                android:textColor="@color/black"
+                android:textSize="18dp" />
+
+            <TextView
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:text="간단한 정보입력으로 계정을 생성해보세요. "
+                android:textSize="10dp" />
+        </LinearLayout>
+
+
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_gravity="center">
+
+        <LinearLayout
+            android:layout_marginTop="25dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="15dp"
+                    android:text=" 이름"
+                    android:textSize="15dp"
+                    android:textColor="@color/black"
+                    />
+                <EditText
+                    android:inputType="textPersonName"
+                    android:id="@+id/join_name"
+                    android:layout_marginTop="8dp"
+                    android:layout_width="135dp"
+                    android:layout_height="35dp"
+                    android:hint="한글로 입력해주세요. "
+                    android:textSize="10dp"
+                    android:textAlignment="center"
+                    android:background="@drawable/btn_edge"
+                    android:privateImeOptions="defaultInputmode=korean" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="15dp"
+                    android:text=" 닉네임"
+                    android:textSize="15dp"
+                    android:textColor="@color/black"/>
+
+                <EditText
+                    android:inputType="text"
+                    android:id="@+id/join_sub_name"
+                    android:textAlignment="center"
+                    android:layout_marginTop="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:hint="2~8 글자 입력가능합니다. "
+                    android:textSize="10dp"
+                    android:background="@drawable/btn_edge"
+                    android:privateImeOptions="defaultInputmode=korean" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                android:text=" 아이디"
+                android:textSize="15dp"
+                android:textColor="@color/black"/>
+
+            <LinearLayout
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:inputType="textEmailAddress"
+                    android:id="@+id/join_id"
+                    android:textAlignment="center"
+                    android:layout_weight="2"
+                    android:layout_width="200dp"
+                    android:layout_height="40dp"
+                    android:hint="20자 이하로 입력해주세요. "
+                    android:textSize="10dp"
+                    android:ems="15"
+                    android:background="@drawable/btn_edge" />
+
+                <Button
+                    android:layout_weight="1"
+                    android:id="@+id/btn_doubleCheck"
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:text="중복확인"
+                    android:background="@drawable/btn_edge_bold"
+                    android:textSize="10dp"
+                    android:textColor="@color/black"
+                    android:layout_marginLeft="10dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=" 비밀번호"
+                android:textSize="15dp"
+                android:textColor="@color/black" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/main_textInputLayout_PW"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:passwordToggleEnabled="true">
+
+                <EditText
+                    android:inputType="textPassword"
+                    android:id="@+id/join_pwd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:hint="최소 8글자 이상 영문, 숫자 조합만 가능합니다. "
+                    android:textSize="9dp"
+                    android:ems="28"
+                    android:background="@drawable/btn_edge" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" 비밀번호 확인"
+                android:textSize="15dp"
+                android:textColor="@color/black"
+                android:layout_marginTop="10dp" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:passwordToggleEnabled="true">
+
+                <EditText
+                    android:inputType="textPassword"
+                    android:id="@+id/join_confirm_pwd"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:textSize="10dp"
+                    android:ems="25"
+                    android:background="@drawable/btn_edge" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=" 핸드폰 인증"
+                android:textSize="15dp"
+                android:textColor="@color/black"
+                />
+            <LinearLayout
+                android:layout_marginTop="7dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:inputType="phone"
+                    android:id="@+id/join_pNum_insert_one"
+                    android:textAlignment="center"
+                    android:layout_width="70dp"
+                    android:layout_height="40dp"
+                    android:text="010"
+                    android:textSize="10dp"
+                    android:maxLength="3"
+                    android:background="@drawable/btn_edge"
+                    android:layout_marginTop="5dp"/>
+
+                <EditText
+                    android:scrollHorizontally="false"
+                    android:inputType="phone"
+                    android:id="@+id/join_pNum_insert_two"
+                    android:textAlignment="center"
+                    android:layout_width="70dp"
+                    android:layout_height="40dp"
+                    android:hint="xxxx"
+                    android:textSize="10dp"
+                    android:maxLength="4"
+                    android:background="@drawable/btn_edge"
+                    android:layout_marginTop="5dp"/>
+
+                <EditText
+                    android:scrollHorizontally="false"
+                    android:inputType="phone"
+                    android:id="@+id/join_pNum_insert_three"
+                    android:textAlignment="center"
+                    android:layout_width="70dp"
+                    android:layout_height="40dp"
+                    android:hint="xxxx"
+                    android:textSize="10dp"
+                    android:maxLength="4"
+                    android:background="@drawable/btn_edge"
+                    android:layout_marginTop="5dp"/>
+
+                <Button
+                    android:id="@+id/join_pNum_sendBtn"
+                    android:layout_width="70dp"
+                    android:layout_height="40dp"
+                    android:text="인증번호 전송"
+                    android:textColor="@color/black"
+                    android:background="@drawable/btn_edge_bold"
+                    android:textSize="8dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="20dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:inputType="number"
+                    android:id="@+id/join_pNum_sendNum_confirm"
+                    android:textAlignment="center"
+                    android:layout_width="210dp"
+                    android:layout_height="40dp"
+                    android:hint= "인증번호 확인"
+                    android:textSize="10dp"
+                    android:ems="17"
+                    android:background="@drawable/btn_edge"
+                    android:layout_marginTop="5dp"/>
+
+                <Button
+                    android:id="@+id/join_pNum_sendNum_confirmBtn"
+                    android:layout_width="70dp"
+                    android:layout_height="40dp"
+                    android:text="확인"
+                    android:background="@drawable/btn_edge_bold"
+                    android:textColor="@color/black"
+                    android:textSize="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="20dp"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+
+
+
+        <LinearLayout
+            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <CheckBox
+                android:id="@+id/join_check"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:text="사용약관을 읽었으며 이에 동의합니다. "
+                android:textSize="10dp"
+                android:textColor="@color/black"/>
+
+            <Button
+                android:id="@+id/btn_join"
+                android:layout_width="230dp"
+                android:layout_height="40dp"
+                android:text="회원가입"
+                android:background="@drawable/btn_edge_gray"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".login.SplashActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="270dp">
+
+
+            <ImageView
+                android:src="@drawable/gsgs_slogun"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleX="1.7"
+                android:scaleY="1.7"
+                android:layout_marginTop="40dp"
+                />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="겸사\n겸사"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="75dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="80dp"/>
+
+
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+        <ImageView
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:src="@drawable/gsgs_team"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

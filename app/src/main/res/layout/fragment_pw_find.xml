@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".login.PwFindFragment">
+
+    <LinearLayout
+        android:layout_width="280dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_gravity="center">
+
+        <LinearLayout
+            android:layout_marginTop="60dp"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="15dp"
+                android:text="비밀번호 찾기"
+                android:textSize="15dp"
+                android:textColor="@color/black"
+                android:layout_marginTop="5dp" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:hint="이름을 입력해주세요. "
+                android:textSize="10dp"
+                android:textAlignment="center"
+                android:ems="25"
+                android:background="@drawable/btn_edge"
+                android:layout_marginTop="20dp" />
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:hint="아이디를 입력하세요"
+                android:textSize="10dp"
+                android:background="@drawable/btn_edge"
+                android:ems="25"
+                android:textAlignment="center"
+                android:layout_marginTop="15dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="30dp"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="15dp"
+                android:text="핸드폰 인증"
+                android:textSize="15dp"
+                android:textColor="@color/black"
+                android:layout_marginTop="15dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:orientation="horizontal"
+                android:layout_marginTop="15dp">
+
+
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:textAlignment="center"
+                    android:hint= "010 -\t\t\t\t-   "
+                    android:textSize="10dp"
+                    android:ems="17"
+                    android:background="@drawable/btn_edge" />
+
+                <Button
+                    android:id="@+id/btn_send2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:textAlignment="center"
+                    android:text="인증번호 전송"
+                    android:textColor="@color/black"
+                    android:background="@drawable/btn_edge"
+                    android:textSize="10dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:textAlignment="center"
+                    android:hint= "인증번호 확인"
+                    android:textSize="10dp"
+                    android:ems="17"
+                    android:background="@drawable/btn_edge"/>
+
+                <Button
+                    android:id="@+id/btn_resend2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="재전송"
+                    android:background="@drawable/btn_edge"
+                    android:textColor="@color/black"
+                    android:textSize="10dp"/>
+
+            </LinearLayout>
+            <Button
+                android:id="@+id/btn_Pw_Find"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="비밀번호 찾기"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                android:background="@drawable/btn_edge_gray"
+                android:layout_marginTop="25dp"/>
+
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

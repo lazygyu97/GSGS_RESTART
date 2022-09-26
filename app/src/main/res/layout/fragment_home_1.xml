@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/home_1"
+    tools:context=".main.HomeFragment_1">
+<TextView
+    android:id="@+id/p1"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:text="dd"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:paddingTop="20dp">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_search" />
+
+            <EditText
+                android:layout_width="220dp"
+                android:layout_height="32dp"
+                android:backgroundTint="#1E1E1E"
+                android:fontFamily="@font/cafe24"
+                android:hint="지역을 입력하면 활동하는 배송원이 보입니다"
+                android:textAlignment="center"
+                android:textColorHint="#515151"
+                android:textSize="10dp" />
+        </LinearLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/TMapView"
+            android:layout_width="match_parent"
+            android:layout_height="400dp" >
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:layout_marginLeft="100dp"
+                android:id="@+id/pick_up_btn"
+                android:layout_width="200dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
+                android:background="@drawable/btn_pick_up"
+                android:fontFamily="@font/cafe24"
+                android:text="픽업요청서"
+                android:textColor="#000000"
+                android:textSize="15dp"
+                android:visibility="visible" />
+            <Button
+
+                android:id="@+id/lo_btn"
+                android:background="@drawable/ic_baseline_refresh_24"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_pick_up_arrow" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/cafe24"
+                android:paddingTop="10dp"
+                android:text="가는길에, 가는김에, 당신 손에 전달해드릴게요!"
+                android:textColor="#555555"
+                android:textSize="11dp" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!--픽업 요청서 레이아웃 -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <LinearLayout
+            android:id="@+id/page"
+            android:name=".RequestLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_shape"
+            android:orientation="vertical"
+            android:visibility="invisible">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true">
+
+                <TextView
+                    android:id="@+id/close_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginTop="20dp"
+                    android:text="X"
+                    android:textColor="@color/black"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="15dp"
+                    android:text="픽업 요청서"
+                    android:textAlignment="center"
+                    android:textSize="20dp" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_marginTop="-10dp"
+                android:background="#DDDDDD" />
+
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="350dp"
+
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:fillViewport="true">
+
+                <LinearLayout
+                    android:layout_width="350dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="170dp"
+                    android:orientation="vertical">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="20dp"
+                        android:orientation="vertical">
+
+
+                        <TextView
+                            android:layout_gravity="center"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="110dp"
+                            android:text="물품 정보"
+                            android:textColor="@color/black"
+                            android:textSize="20dp" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="30dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="물품 이름" />
+
+                            <EditText
+
+                                android:id="@+id/pick_up_item_name"
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content" />
+
+                        </LinearLayout>
+                        <TextView
+                            android:layout_gravity="center"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:text="물품 사진 등록"
+                            android:textColor="@color/black"
+                            android:textSize="20dp" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="20dp"
+                            android:background="@drawable/btn_edge">
+
+                            <ImageView
+                                android:id="@+id/pick_up_item_img"
+                                android:layout_width="250dp"
+                                android:layout_height="250dp"
+                                android:layout_gravity="center"
+                                android:scaleX="0.5"
+                                android:scaleY="0.5"
+                                android:src="@drawable/gsgs_logo" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <Button
+                                android:id="@+id/pick_up_item_imgBtn_1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginRight="20dp"
+                                android:background="@drawable/button_shape"
+                                android:text="촬영하기" />
+                            <Button
+                                android:id="@+id/pick_up_item_imgBtn_2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:background="@drawable/button_shape"
+                                android:text="가져오기" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:text="주소 입력"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="20dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:text="출발 주소"
+                            android:textColor="@color/black"
+                            android:textSize="20dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="주소 :" />
+
+                            <EditText
+                                android:enabled="false"
+                                android:id="@+id/pick_up_item_addr_start"
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content" />
+
+                            <Button
+                                android:id="@+id/find_addr_1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="주소 찾기" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="상세주소" />
+
+                            <EditText
+                                android:id="@+id/pick_up_item_addr_start_detail"
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="30dp"
+                            android:text="목적지 주소"
+                            android:textColor="@color/black"
+                            android:textSize="20dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="주소 :" />
+
+                            <EditText
+                                android:enabled="false"
+                                android:id="@+id/pick_up_item_addr_end"
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content" />
+
+                            <Button
+                                android:id="@+id/find_addr_2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="주소 찾기" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="상세주소" />
+
+                            <EditText
+                                android:id="@+id/pick_up_item_addr_end_detail"
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="30dp"
+                            android:text="기타 정보 입력"
+                            android:textColor="@color/black"
+                            android:textSize="20dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="요청사항" />
+
+                            <EditText
+                                android:id="@+id/pick_up_item_request"
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="예상 비용" />
+
+                            <EditText
+                                android:id="@+id/pick_up_item_cost"
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content" />
+
+                        </LinearLayout>
+
+                        <Button
+                            android:id="@+id/pick_up_item_requestBtn"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="40dp"
+                            android:background="@drawable/btn_edge"
+                            android:text="픽업 요청하기" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+            </androidx.core.widget.NestedScrollView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/web_back"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#A9535353"
+            android:clickable="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="horizontal"
+            android:visibility="invisible" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/web_layout"
+            android:layout_width="390dp"
+            android:layout_height="500dp"
+            android:layout_gravity="center"
+            android:background="@drawable/btn_edge"
+            android:visibility="invisible">
+
+            <WebView
+                android:id="@+id/webView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true" />
+
+            <TextView
+                android:id="@+id/txt_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="받은 주소"
+                android:visibility="invisible"
+                tools:ignore="MissingConstraints" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>
+
+</FrameLayout>
+

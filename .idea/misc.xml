@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="../GSGS_PLUS_FINAL/app/src/main/res/layout/activity_before_pick_up.xml" value="0.1" />
+        <entry key="../GSGS_PLUS_FINAL/app/src/main/res/layout/activity_doing_pick_up.xml" value="0.1" />
+        <entry key="../GSGS_PLUS_FINAL/app/src/main/res/layout/activity_doing_request.xml" value="0.1" />
+        <entry key="../GSGS_PLUS_FINAL/app/src/main/res/layout/activity_fail_request.xml" value="0.16767983789260385" />
+        <entry key="../GSGS_PLUS_FINAL/app/src/main/res/layout/activity_finish_pick_up.xml" value="0.16767983789260385" />
+        <entry key="../GSGS_PLUS_FINAL/app/src/main/res/layout/activity_id_find_finish.xml" value="0.1" />
+        <entry key="../GSGS_PLUS_FINAL/app/src/main/res/layout/activity_join.xml" value="0.17785234899328858" />
+        <entry key="../GSGS_PLUS_FINAL/app/src/main/res/layout/activity_login.xml" value="0.16767983789260385" />
+        <entry key="../GSGS_PLUS_FINAL/app/src/main/res/layout/fragment_home_1.xml" value="0.16767983789260385" />
+        <entry key="../GSGS_PLUS_FINAL/app/src/main/res/layout/fragment_home_2.xml" value="0.16767983789260385" />
+        <entry key="../GSGS_PLUS_FINAL/app/src/main/res/layout/fragment_id_find.xml" value="0.1" />
+        <entry key="../GSGS_PLUS_FINAL/app/src/main/res/layout/fragment_use_list.xml" value="0.1" />
+        <entry key="../GSGS_PLUS_FINAL/app/src/main/res/layout/fragment_use_list1.xml" value="0.1" />
+        <entry key="../GSGS_PLUS_FINAL/app/src/main/res/layout/fragment_user.xml" value="0.1752786220871327" />
+        <entry key="..\:/Users/sog31/AndroidStudioProjects/GSGS_PLUS_FINAL/app/src/main/res/layout/activity_before_pick_up.xml" value="0.1" />
+        <entry key="..\:/Users/sog31/AndroidStudioProjects/GSGS_PLUS_FINAL/app/src/main/res/layout/activity_doing_pick_up.xml" value="0.33" />
+        <entry key="..\:/Users/sog31/AndroidStudioProjects/GSGS_PLUS_FINAL/app/src/main/res/layout/activity_doing_request.xml" value="0.1" />
+        <entry key="..\:/Users/sog31/AndroidStudioProjects/GSGS_PLUS_FINAL/app/src/main/res/layout/activity_fail_request.xml" value="0.28541666666666665" />
+        <entry key="..\:/Users/sog31/AndroidStudioProjects/GSGS_PLUS_FINAL/app/src/main/res/layout/activity_find.xml" value="0.28541666666666665" />
+        <entry key="..\:/Users/sog31/AndroidStudioProjects/GSGS_PLUS_FINAL/app/src/main/res/layout/activity_finish_pick_up.xml" value="0.28541666666666665" />
+        <entry key="..\:/Users/sog31/AndroidStudioProjects/GSGS_PLUS_FINAL/app/src/main/res/layout/activity_id_find_finish.xml" value="0.28541666666666665" />
+        <entry key="..\:/Users/sog31/AndroidStudioProjects/GSGS_PLUS_FINAL/app/src/main/res/layout/activity_join_finsh.xml" value="0.28541666666666665" />
+        <entry key="..\:/Users/sog31/AndroidStudioProjects/GSGS_PLUS_FINAL/app/src/main/res/layout/activity_picker_join.xml" value="0.19655797101449277" />
+        <entry key="..\:/Users/sog31/AndroidStudioProjects/GSGS_PLUS_FINAL/app/src/main/res/layout/activity_picker_join_study.xml" value="0.19655797101449277" />
+        <entry key="..\:/Users/sog31/AndroidStudioProjects/GSGS_PLUS_FINAL/app/src/main/res/layout/activity_pw_find_finish.xml" value="0.28541666666666665" />
+        <entry key="..\:/Users/sog31/AndroidStudioProjects/GSGS_PLUS_FINAL/app/src/main/res/layout/activity_success_request.xml" value="0.33" />
+        <entry key="..\:/Users/sog31/AndroidStudioProjects/GSGS_PLUS_FINAL/app/src/main/res/layout/chat_receive.xml" value="0.28541666666666665" />
+        <entry key="..\:/Users/sog31/AndroidStudioProjects/GSGS_PLUS_FINAL/app/src/main/res/layout/fragment_home.xml" value="0.25" />
+        <entry key="..\:/Users/sog31/AndroidStudioProjects/GSGS_PLUS_FINAL/app/src/main/res/layout/fragment_home_1.xml" value="0.1" />
+        <entry key="..\:/Users/sog31/AndroidStudioProjects/GSGS_PLUS_FINAL/app/src/main/res/layout/fragment_home_2.xml" value="0.25" />
+        <entry key="..\:/Users/sog31/AndroidStudioProjects/GSGS_PLUS_FINAL/app/src/main/res/layout/fragment_use_list.xml" value="0.2375" />
+        <entry key="..\:/Users/sog31/AndroidStudioProjects/GSGS_PLUS_FINAL/app/src/main/res/layout/fragment_use_list1.xml" value="0.1" />
+        <entry key="..\:/Users/sog31/AndroidStudioProjects/GSGS_PLUS_FINAL/app/src/main/res/layout/fragment_use_list2.xml" value="0.12" />
+        <entry key="..\:/Users/sog31/AndroidStudioProjects/GSGS_PLUS_FINAL/app/src/main/res/layout/fragment_user.xml" value="0.28541666666666665" />
+        <entry key="..\:/Users/sog31/AndroidStudioProjects/GSGS_PLUS_FINAL/app/src/main/res/layout/pickup_list_item.xml" value="0.19655797101449277" />
+        <entry key="..\:/Users/sog31/AndroidStudioProjects/GSGS_PLUS_FINAL/app/src/main/res/layout/use_list_item.xml" value="0.38645833333333335" />
+        <entry key="app/src/main/res/drawable-v24/pick_up.xml" value="0.153" />
+        <entry key="app/src/main/res/drawable/pickup_list_item.xml" value="0.301" />
+        <entry key="app/src/main/res/layout/activity_before_pick_up.xml" value="0.3788534966404073" />
+        <entry key="app/src/main/res/layout/activity_doing_pick_up.xml" value="0.3440771873961104" />
+        <entry key="app/src/main/res/layout/activity_doing_request.xml" value="0.3378623188405797" />
+        <entry key="app/src/main/res/layout/activity_fail_request.xml" value="0.3378623188405797" />
+        <entry key="app/src/main/res/layout/activity_finish_pick_up.xml" value="0.3449164207945479" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.5156230953568263" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.2740628166160081" />
+        <entry key="app/src/main/res/layout/activity_picker_join.xml" value="0.2740628166160081" />
+        <entry key="app/src/main/res/layout/activity_success_request.xml" value="0.3378623188405797" />
+        <entry key="app/src/main/res/layout/activity_web_view.xml" value="0.27219202898550726" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.20092592592592592" />
+        <entry key="app/src/main/res/layout/fragment_home_1.xml" value="0.3050247192382813" />
+        <entry key="app/src/main/res/layout/fragment_home_2.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_id_find.xml" value="0.18055555555555555" />
+        <entry key="app/src/main/res/layout/fragment_pw_find.xml" value="0.2740628166160081" />
+        <entry key="app/src/main/res/layout/fragment_use_list.xml" value="0.2740628166160081" />
+        <entry key="app/src/main/res/layout/pickup_list_item.xml" value="0.3812785388127854" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.153" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.153" />
+      </map>
+    </option>
+  </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

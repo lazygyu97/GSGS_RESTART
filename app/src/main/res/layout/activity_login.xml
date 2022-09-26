@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".login.LoginActivity">
+
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="150dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="18dp"
+            android:scaleX="1.9"
+            android:scaleY="1.9"
+            android:layout_gravity="center"
+            android:src="@drawable/gsgs_logo"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="가는길에, 가는김에, 당신 손에 전달해드릴게요!\n\n지금 바로 사용해보세요!!"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:textSize="12dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center">
+
+            <TextView
+                android:layout_width="25dp"
+                android:layout_height="20dp"
+                android:text="ID"
+                android:textSize="13.5dp"
+                android:textColor="@color/black"/>
+            <EditText
+                android:id="@+id/edit_id"
+                android:layout_width="220dp"
+                android:layout_height="40dp"
+                android:ems="15"
+                android:textSize="20dp"
+                android:background="@drawable/btn_edge_bold"
+                android:textColor="@color/black" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center">
+
+        <TextView
+            android:layout_width="25dp"
+            android:layout_height="20dp"
+            android:text="PW"
+            android:textSize="12dp"
+
+            android:textColor="@color/black" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/main_textInputLayout_PW"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="1.3dp"
+            app:passwordToggleEnabled="true"
+            app:counterTextColor="@color/black">
+
+            <EditText
+                android:id="@+id/edit_pw"
+                android:layout_width="220dp"
+                android:layout_height="40dp"
+                android:background="@drawable/btn_edge_bold"
+                android:ems="10"
+                android:inputType="textPassword"
+                android:textColor="@color/black"
+                android:textSize="20dp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="30dp"-->
+<!--        android:orientation="horizontal">-->
+
+<!--        <LinearLayout-->
+<!--            android:layout_weight="1"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical">-->
+<!--            <CheckBox-->
+<!--                android:layout_gravity="right"-->
+<!--                android:layout_width="100dp"-->
+<!--                android:layout_height="20dp"-->
+<!--                android:text="아이디저장"-->
+<!--                android:textSize="10dp"-->
+<!--                android:textColor="@color/black" />-->
+<!--        </LinearLayout>-->
+
+<!--        <LinearLayout-->
+<!--            android:layout_weight="1"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical">-->
+<!--            <CheckBox-->
+<!--                android:id="@+id/auto_login"-->
+<!--                android:layout_width="100dp"-->
+<!--                android:layout_height="20dp"-->
+<!--                android:text="자동로그인"-->
+<!--                android:textSize="10dp"-->
+<!--                android:textColor="@color/black" />-->
+<!--        </LinearLayout>-->
+
+
+<!--    </LinearLayout>-->
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="130dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:background="@drawable/btn_edge_gray"
+            android:text="로그인"
+            android:textColor="@color/black"
+            android:layout_marginTop="10dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:text="아직 회원이 아니시라면"
+            android:textSize="10dp"
+            android:gravity="center"
+            android:layout_marginTop="30dp"/>
+
+        <TextView
+            android:id="@+id/start_join"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:text="@string/member"
+            android:layout_marginBottom="10dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="@color/black"
+          />
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:text="계정이 기억나지 않으신다면"
+            android:textSize="10dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/text_IdPwfind"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:text="@string/find"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:layout_marginBottom="30dp" />
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:text="고객센터 : 010-1234-5678"
+            android:textSize="10dp"
+            android:gravity="center"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>
