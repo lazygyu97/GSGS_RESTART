@@ -8,6 +8,8 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -24,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.gsgs_plus_final.adapter.PickUpListAdapter
 import com.example.gsgs_plus_final.data.routes
 import com.example.gsgs_plus_final.pickUp.BeforePickUpActivity
+import com.example.gsgs_plus_final.vo.LoadingDialog
 import com.example.gsgs_plus_final.vo.pick_list
 import com.example.tmaptest.data.start
 import com.example.tmaptest.retrofit.GeoCodingInterface
@@ -62,7 +65,6 @@ class HomeFragment_2 : Fragment(), TMapGpsManager.onLocationChangedCallback {
     var time: String? = null
     var fare: String? = null
     var km: String? = null
-
     var tmapView: TMapView? = null
     var tmap: TMapGpsManager? = null
 
@@ -79,6 +81,8 @@ class HomeFragment_2 : Fragment(), TMapGpsManager.onLocationChangedCallback {
         val v =
             inflater.inflate(com.example.gsgs_plus_final.R.layout.fragment_home_2, container, false)
         val mainAct = activity as MainActivity
+        var dialog =LoadingDialog(requireContext())
+
 
         val maps = v.findViewById<ConstraintLayout>(com.example.gsgs_plus_final.R.id.TMapView)
         tmapView = TMapView(context)
@@ -125,6 +129,7 @@ class HomeFragment_2 : Fragment(), TMapGpsManager.onLocationChangedCallback {
 
 
         fun load_request() {
+
             fun getRoutes_2(
                 service: GeoCodingInterface, endX: Double,
                 endY: Double, startX: Double,
@@ -468,6 +473,7 @@ class HomeFragment_2 : Fragment(), TMapGpsManager.onLocationChangedCallback {
                                                     }
 
                                                 }
+
                                                 list.adapter = adapter
 
                                             }
@@ -508,6 +514,7 @@ class HomeFragment_2 : Fragment(), TMapGpsManager.onLocationChangedCallback {
                             2
                         )
 
+
                     }
 
 
@@ -518,6 +525,7 @@ class HomeFragment_2 : Fragment(), TMapGpsManager.onLocationChangedCallback {
                     Log.w("No Such document!!!", exception)
                 }
 
+
         }
 
 
@@ -527,10 +535,8 @@ class HomeFragment_2 : Fragment(), TMapGpsManager.onLocationChangedCallback {
             Log.d("check!@# : ", tmap!!.location.latitude.toString())
             if (tmap!!.location.latitude !== 0.0) {
                 timer.cancel()
-
-
+                dialog.dismiss()
                 load_request()
-
             }
 
         }
@@ -546,7 +552,9 @@ class HomeFragment_2 : Fragment(), TMapGpsManager.onLocationChangedCallback {
             tm.schedule(timer, 0, 500);
         }
 
+        dialog.show()
         main()
+
 
         return v
 

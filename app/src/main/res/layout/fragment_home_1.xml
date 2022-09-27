@@ -464,6 +464,35 @@
                 android:text="받은 주소"
                 android:visibility="invisible"
                 tools:ignore="MissingConstraints" />
+            <TextView
+                android:id="@+id/start_X"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:text="받은 주소"
+                android:visibility="invisible"
+                tools:ignore="MissingConstraints" />
+             <TextView
+                android:id="@+id/start_Y"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:text="받은 주소"
+                android:visibility="invisible"
+                tools:ignore="MissingConstraints" />
+             <TextView
+                android:id="@+id/end_X"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:text="받은 주소"
+                android:visibility="invisible"
+                tools:ignore="MissingConstraints" />
+             <TextView
+                android:id="@+id/end_Y"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:text="받은 주소"
+                android:visibility="invisible"
+                tools:ignore="MissingConstraints" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
