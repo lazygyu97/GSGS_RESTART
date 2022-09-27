@@ -45,8 +45,13 @@
         </LinearLayout>
     </RelativeLayout>
 
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
     <LinearLayout
-        android:layout_width="350dp"
+        android:layout_width="300dp"
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:orientation="vertical">
@@ -55,7 +60,7 @@
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="20dp"
             android:orientation="vertical">
 
             <TextView
@@ -66,12 +71,14 @@
                 android:textSize="20dp" />
 
             <TextView
+                android:id="@+id/addr1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:text="도로명 주소" />
 
             <TextView
+                android:id="@+id/addr2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -84,7 +91,7 @@
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="20dp"
             android:orientation="vertical">
 
             <TextView
@@ -95,6 +102,7 @@
                 android:textSize="20dp" />
 
             <TextView
+                android:id="@+id/re"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -106,8 +114,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
+            android:layout_height="395dp"
+            android:layout_marginTop="30dp"
             android:orientation="vertical">
 
             <TextView
@@ -115,66 +123,96 @@
                 android:layout_width="240dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="픽업 장소 길찾기"
+                android:text="픽업 장소 예상 경로"
                 android:textColor="@color/black"
                 android:textSize="18dp" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/TMapView"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/btn_edge"
+                android:background="@drawable/btn_edge" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
                 android:orientation="horizontal">
 
-                <Button
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="20dp"
-                    android:background="@drawable/ic_naver_map" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="예상 거리 :"
+                    android:textAlignment="center" />
 
-                <Button
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="40dp"
-                    android:layout_marginRight="40dp"
-                    android:background="@drawable/ic_t_map" />
-
-                <Button
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginRight="20dp"
-                    android:background="@drawable/ic_kakao_map" />
-
+                <TextView
+                    android:id="@+id/km"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="1시간 10분" />
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="예상 소요 시간 :"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/time"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="1시간 10분" />
+            </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout
-            android:layout_gravity="center"
-            android:orientation="vertical"
-            android:layout_marginTop="50dp"
             android:layout_width="280dp"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
+            <!--            <Button-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:text="요청 회원과 채팅하기"-->
+            <!--                android:background="@drawable/btn_edge"/>-->
+            <!--            <Button-->
+            <!--                android:text="픽업 물품 사진 등록"-->
+            <!--                android:layout_marginTop="20dp"-->
+            <!--                android:layout_marginBottom="20dp"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:background="@drawable/btn_edge"/>-->
             <Button
+                android:id="@+id/go_tmap"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="요청 회원과 채팅하기"
-                android:background="@drawable/btn_edge"/>
+                android:background="@drawable/btn_edge"
+                android:text="티맵으로 경로 안내 받기" />
             <Button
-                android:text="픽업 물품 사진 등록"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/btn_edge"/>
-            <Button
-                android:text="픽업 완료"
+                android:layout_marginTop="10dp"
                 android:id="@+id/btn_finish"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/btn_edge"/>
+                android:background="@drawable/btn_edge"
+                android:text="픽업 완료" />
         </LinearLayout>
 
     </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>
