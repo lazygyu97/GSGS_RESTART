@@ -468,13 +468,17 @@ class HomeFragment_2 : Fragment(), TMapGpsManager.onLocationChangedCallback {
                                                             context,
                                                             BeforePickUpActivity::class.java
                                                         )
+
                                                         intent.putExtra("Data", accept_doc_id)
+                                                        intent.putExtra("MyLocation_lat", tmap!!.location.latitude.toString())
+                                                        intent.putExtra("MyLocation_lon", tmap!!.location.longitude.toString())
                                                         startActivity(intent)
                                                     }
 
                                                 }
 
                                                 list.adapter = adapter
+                                                dialog.dismiss()
 
                                             }
                                         }
@@ -535,7 +539,6 @@ class HomeFragment_2 : Fragment(), TMapGpsManager.onLocationChangedCallback {
             Log.d("check!@# : ", tmap!!.location.latitude.toString())
             if (tmap!!.location.latitude !== 0.0) {
                 timer.cancel()
-                dialog.dismiss()
                 load_request()
             }
 
