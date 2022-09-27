@@ -53,6 +53,7 @@
         <entry key="app/src/main/res/layout/activity_picker_join.xml" value="0.2740628166160081" />
         <entry key="app/src/main/res/layout/activity_success_request.xml" value="0.3378623188405797" />
         <entry key="app/src/main/res/layout/activity_web_view.xml" value="0.27219202898550726" />
+        <entry key="app/src/main/res/layout/dialog_loading.xml" value="0.22163120567375885" />
         <entry key="app/src/main/res/layout/dialog_progress.xml" value="0.12284701114488349" />
         <entry key="app/src/main/res/layout/fragment_chat.xml" value="0.12335359675785208" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.20092592592592592" />

@@ -87,9 +87,6 @@ class HomeFragment_1 : Fragment(), TMapGpsManager.onLocationChangedCallback,
     var endY: String? = null
 
 
-
-
-
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -139,10 +136,12 @@ class HomeFragment_1 : Fragment(), TMapGpsManager.onLocationChangedCallback,
         //현재 실시간 위치
         fun foo() {
             Log.d("realtime", "wow!")
-            Log.d("check!@# : ",tmap!!.location.latitude.toString())
+            if (tmap!!.location.latitude !== 0.0) {
+                tmapView!!.setLocationPoint(tmap!!.location.longitude, tmap!!.location.latitude)
+                tmapView!!.setCenterPoint(tmap!!.location.longitude, tmap!!.location.latitude)
 
-            tmapView!!.setLocationPoint(tmap!!.location.longitude, tmap!!.location.latitude)
-            tmapView!!.setCenterPoint(tmap!!.location.longitude, tmap!!.location.latitude)
+            }
+
         }
 
         fun createTimerTask(): TimerTask {
@@ -257,7 +256,11 @@ class HomeFragment_1 : Fragment(), TMapGpsManager.onLocationChangedCallback,
         val webview = v.findViewById<WebView>(R.id.webView)
         val pick_up_item_imgBtn_1 = v.findViewById<Button>(R.id.pick_up_item_imgBtn_1)
         val pick_up_item_imgBtn_2 = v.findViewById<Button>(R.id.pick_up_item_imgBtn_2)
-        val pick_up_item_img = v.findViewById<ImageView>(R.id.pick_up_item_img)
+        val start_X = v.findViewById<TextView>(R.id.start_X)
+        val start_Y = v.findViewById<TextView>(R.id.start_Y)
+        val end_X = v.findViewById<TextView>(R.id.end_X)
+        val end_Y = v.findViewById<TextView>(R.id.end_Y)
+        //val pick_up_item_img = v.findViewById<ImageView>(R.id.pick_up_item_img)
 
 
         var webView: WebView? = null
@@ -285,6 +288,66 @@ class HomeFragment_1 : Fragment(), TMapGpsManager.onLocationChangedCallback,
 
             }
         }
+        fun input_db() {
+            Log.d("**************", start_X.text.toString())
+
+            docRef3.document(auth.currentUser!!.email.toString()).get().addOnSuccessListener {
+
+                    document ->
+                val result = makeRequestUid()
+
+                val pick_up_request = PickUpRequest(
+                    document.data!!.get("name").toString(),
+                    auth.currentUser!!.email.toString(),
+                    document.data!!.get("p_num").toString(),
+                    auth.currentUser!!.uid,
+                    pick_up_item_name.text.toString(),
+                    pick_up_item_addr_start.text.toString() + pick_up_item_addr_start_detail.text.toString(),
+                    pick_up_item_addr_end.text.toString() + pick_up_item_addr_end_detaol.text.toString(),
+                    pick_up_item_request.text.toString(),
+                    pick_up_item_cost.text.toString(),
+                    "0",
+                    start_X.text.toString(),
+                    start_Y.text.toString(),
+                    end_X.text.toString(),
+                    end_Y.text.toString()
+                )
+                Log.d("dddddddddddsadf", start_X.text.toString())
+
+                val start = pick_up_item_addr_start.text.toString().substring(8, 14)
+                Log.d("요청 중2 :", start)
+                val end = pick_up_item_addr_end.text.toString().substring(8, 14)
+                val user_id = auth.currentUser!!.email
+
+                docRef.document(makeRequestUid()).set(pick_up_request)
+                docRef3.document(auth.currentUser!!.email.toString())
+                    .update("pick_up_list", FieldValue.arrayUnion(makeRequestUid()))
+                activity?.let {
+                    val intent = Intent(context, DoingRequestActivity::class.java)
+
+                    intent.putExtra("result", result)
+                    intent.putExtra("start", start)
+                    intent.putExtra("id", user_id)
+                    intent.putExtra("end", end)
+                    startActivity(intent)
+                }
+            }
+        }
+
+        fun st(s1: String, s2: String) {
+            Log.d("fuckckckc ", s1)
+            start_X.setText(s1)
+            Log.d("sexesx ", start_X.text.toString())
+            start_Y.setText(s2)
+        }
+
+        fun en(s1: String, s2: String) {
+            end_X.setText(s1)
+            end_Y.setText(s2)
+            input_db()
+
+        }
+
 
         //지오코드
         fun getSearchList_1(
@@ -342,13 +405,9 @@ class HomeFragment_1 : Fragment(), TMapGpsManager.onLocationChangedCallback,
 
                     Log.d("StartX :", startX!!)
                     Log.d("StartY :", startY!!)
-
-//                    Log.d("result 1",response.body()?.coordinateInfo?.coordinate?.get(0)?.lat.toString() )
-//                    Log.d("result 1",response.body()?.coordinateInfo?.coordinate?.get(0)?.lon.toString())
-//                    Log.d("result 1",response.body()?.coordinateInfo?.coordinate?.get(0)?.newLat.toString() )
-//                    Log.d("result 1",response.body()?.coordinateInfo?.coordinate?.get(0)?.newLon.toString())
-//                    Log.d("result 1",response.body()?.coordinateInfo?.coordinate?.get(0)?.newLatEntr.toString() )
-//                    Log.d("result 1",response.body()?.coordinateInfo?.coordinate?.get(0)?.newLonEntr.toString())
+                    st(startX!!, startY!!)
+                    v.findViewById<TextView>(R.id.start_X).setText(startX)
+                    v.findViewById<TextView>(R.id.start_Y).setText(startY)
                 }
             })
 
@@ -402,18 +461,14 @@ class HomeFragment_1 : Fragment(), TMapGpsManager.onLocationChangedCallback,
 
                     Log.d("EndX :", endX!!)
                     Log.d("EndY :", endY!!)
+                    en(endX!!, endY!!)
 
-//
-//                    Log.d("TAG", "성공")
-//                    Log.d("result 2",response.body()?.coordinateInfo?.coordinate?.get(0)?.lat.toString() )
-//                    Log.d("result 2",response.body()?.coordinateInfo?.coordinate?.get(0)?.lon.toString())
-//                    Log.d("result 2",response.body()?.coordinateInfo?.coordinate?.get(0)?.newLat.toString())
-//                    Log.d("result 2",response.body()?.coordinateInfo?.coordinate?.get(0)?.newLon.toString())
-//                    Log.d("result 2",response.body()?.coordinateInfo?.coordinate?.get(0)?.newLatEntr.toString() )
-//                    Log.d("result 2",response.body()?.coordinateInfo?.coordinate?.get(0)?.newLonEntr.toString())
+                    v.findViewById<TextView>(R.id.end_X).setText(endX)
+                    v.findViewById<TextView>(R.id.end_Y).setText(endY)
                 }
             })
         }
+
 
 
         lo_btn.setOnClickListener {
@@ -425,12 +480,15 @@ class HomeFragment_1 : Fragment(), TMapGpsManager.onLocationChangedCallback,
             mainAct.HideBottomNavi(true)
             page.startAnimation(animation_1)
             page.visibility = View.VISIBLE
+            timer.cancel()
         }
         close_btn.setOnClickListener {
             pick_up_btn.visibility = View.VISIBLE
             mainAct.HideBottomNavi(false)
             page.startAnimation(animation_2)
             page.visibility = View.INVISIBLE
+            main()
+
         }
 
         pl_pick.setOnClickListener {
@@ -460,47 +518,10 @@ class HomeFragment_1 : Fragment(), TMapGpsManager.onLocationChangedCallback,
 
             val s_2 = s_1.substring(7)
             val e_2 = e_1.substring(7)
-            Log.d("!!!!!!!!!", s_2)
+            Log.d("!!!!!!!!!", start_X.text.toString())
 
             getSearchList_1(supplementService, "1", s_2, "l7xx961891362ed44d06a261997b67e5ace6")
             getSearchList_2(supplementService, "1", e_2, "l7xx961891362ed44d06a261997b67e5ace6")
-
-            docRef3.document(auth.currentUser!!.email.toString()).get().addOnSuccessListener {
-
-                    document ->
-                val result = makeRequestUid()
-                val pick_up_request = PickUpRequest(
-                    document.data!!.get("name").toString(),
-                    auth.currentUser!!.email.toString(),
-                    document.data!!.get("p_num").toString(),
-                    auth.currentUser!!.uid,
-                    pick_up_item_name.text.toString(),
-                    pick_up_item_addr_start.text.toString() + pick_up_item_addr_start_detail.text.toString(),
-                    pick_up_item_addr_end.text.toString() + pick_up_item_addr_end_detaol.text.toString(),
-                    pick_up_item_request.text.toString(),
-                    pick_up_item_cost.text.toString(),
-                    "0", startX, startY, endX, endY
-                )
-
-                val start = pick_up_item_addr_start.text.toString().substring(8, 14)
-                Log.d("요청 중2 :", start)
-                val end = pick_up_item_addr_end.text.toString().substring(8, 14)
-                val user_id = auth.currentUser!!.email
-
-                docRef.document(makeRequestUid()).set(pick_up_request)
-                docRef3.document(auth.currentUser!!.email.toString())
-                    .update("pick_up_list", FieldValue.arrayUnion(makeRequestUid()))
-                activity?.let {
-                    val intent = Intent(context, DoingRequestActivity::class.java)
-
-                    intent.putExtra("result", result)
-                    intent.putExtra("start", start)
-                    intent.putExtra("id", user_id)
-                    intent.putExtra("end", end)
-                    startActivity(intent)
-                }
-            }
-
 
         }
         find_addr_1.setOnClickListener {
@@ -551,7 +572,6 @@ class HomeFragment_1 : Fragment(), TMapGpsManager.onLocationChangedCallback,
             photoPickerIntent.type = "image/*"
         }
 
-
         // Inflate the layout for this fragment
         return v
 
@@ -567,7 +587,6 @@ class HomeFragment_1 : Fragment(), TMapGpsManager.onLocationChangedCallback,
         return formatted
 
     }
-
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
