@@ -2,11 +2,14 @@ package com.example.gsgs_plus_final.main
 
 import android.Manifest
 import android.content.Context
+import android.content.Context.LOCATION_SERVICE
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.graphics.PointF
 import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -14,7 +17,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import java.util.TimerTask
 import android.view.animation.AnimationUtils
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
@@ -22,6 +24,7 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import com.example.gsgs_plus_final.R
 import com.example.gsgs_plus_final.request.DoingRequestActivity
@@ -30,6 +33,9 @@ import com.example.gsgs_plus_final.vo.pick_mark
 import com.example.tmaptest.data.start
 import com.example.tmaptest.retrofit.GeoCodingInterface
 import com.example.tmaptest.retrofit.RetrofitClient
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FieldValue
@@ -37,13 +43,11 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.skt.Tmap.TMapGpsManager
 import com.skt.Tmap.TMapGpsManager.GPS_PROVIDER
-import com.skt.Tmap.TMapGpsManager.NETWORK_PROVIDER
 import com.skt.Tmap.TMapMarkerItem
 import com.skt.Tmap.TMapPoint
 import com.skt.Tmap.TMapView
 import com.skt.Tmap.TMapView.OnClickListenerCallback
 import com.skt.Tmap.poi_item.TMapPOIItem
-import okhttp3.internal.wait
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -51,26 +55,28 @@ import retrofit2.Retrofit
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.concurrent.timerTask
-import kotlin.math.log
-import kotlin.text.Typography.tm
 
 
 class HomeFragment_1 : Fragment(), TMapGpsManager.onLocationChangedCallback,
     OnClickListenerCallback {
 
 
-    private var viewProfile: View? = null
-    var pickImageFromAlbum = 0
-    private lateinit var location: Location
+//    private var viewProfile: View? = null
+//    var pickImageFromAlbum = 0
+
     val db = Firebase.firestore
+
     lateinit var mainActivity: MainActivity
     private lateinit var auth: FirebaseAuth
     private lateinit var retrofit: Retrofit
     private lateinit var supplementService: GeoCodingInterface
+
     val tm = Timer()
     private lateinit var timer: TimerTask
+
     var picker_get_loc = ArrayList<pick_mark>()
     val docRef2 = db.collection("pickers")
+
     var tmapView: TMapView? = null
     var tmap: TMapGpsManager? = null
 
@@ -80,16 +86,9 @@ class HomeFragment_1 : Fragment(), TMapGpsManager.onLocationChangedCallback,
     var endX: String? = null
     var endY: String? = null
 
-    override fun onLocationChange(p0: Location) {
-        Log.d("#######%%%%%%", p0.toString())
-        tmapView!!.setLocationPoint(p0.longitude, p0.latitude)
-        tmapView!!.setCenterPoint(p0.longitude, p0.latitude)
 
-    }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-    }
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
@@ -140,6 +139,8 @@ class HomeFragment_1 : Fragment(), TMapGpsManager.onLocationChangedCallback,
         //현재 실시간 위치
         fun foo() {
             Log.d("realtime", "wow!")
+            Log.d("check!@# : ",tmap!!.location.latitude.toString())
+
             tmapView!!.setLocationPoint(tmap!!.location.longitude, tmap!!.location.latitude)
             tmapView!!.setCenterPoint(tmap!!.location.longitude, tmap!!.location.latitude)
         }
@@ -152,7 +153,7 @@ class HomeFragment_1 : Fragment(), TMapGpsManager.onLocationChangedCallback,
 
 
         fun main() {
-            timer=createTimerTask()
+            timer = createTimerTask()
             tm.schedule(timer, 1000, 1000);
         }
 
@@ -218,11 +219,11 @@ class HomeFragment_1 : Fragment(), TMapGpsManager.onLocationChangedCallback,
         }
 
         tmap = TMapGpsManager(context)
-        Log.d("#######", tmap!!.location.toString())
-        tmap!!.provider = NETWORK_PROVIDER
-
+        tmap!!.provider = GPS_PROVIDER
+        //tmap!!.provider = NETWORK_PROVIDER
         tmap!!.minTime = 1000
         tmap!!.OpenGps()
+
 
         val animation_1 = AnimationUtils.loadAnimation(context, R.anim.translate_up)
         val animation_2 = AnimationUtils.loadAnimation(context, R.anim.translate_down)
@@ -416,7 +417,7 @@ class HomeFragment_1 : Fragment(), TMapGpsManager.onLocationChangedCallback,
 
 
         lo_btn.setOnClickListener {
-           main()
+            main()
         }
 
         pick_up_btn.setOnClickListener {
@@ -589,14 +590,14 @@ class HomeFragment_1 : Fragment(), TMapGpsManager.onLocationChangedCallback,
         super.onPause()
         tmap!!.CloseGps()
         Log.d("!!!!!!!!!!!!!!", tmap!!.CloseGps().toString())
-        tm.cancel()
+        timer.cancel()
     }
 
     override fun onDetach() {
         super.onDetach()
         tmap!!.CloseGps()
         Log.d("!!!!!!!!!!!!!!", tmap!!.CloseGps().toString())
-        tm.cancel()
+        timer.cancel()
     }
 
     override fun onPressEvent(
@@ -617,6 +618,12 @@ class HomeFragment_1 : Fragment(), TMapGpsManager.onLocationChangedCallback,
         TODO("Not yet implemented")
     }
 
+    override fun onLocationChange(p0: Location) {
+        Log.d("#######%%%%%%", p0.toString())
+        tmapView!!.setLocationPoint(p0.longitude, p0.latitude)
+        tmapView!!.setCenterPoint(p0.longitude, p0.latitude)
+
+    }
 
 }
 

@@ -18,12 +18,15 @@ import androidx.fragment.app.FragmentTransaction
 import com.example.gsgs_plus_final.R
 import com.example.gsgs_plus_final.login.PickerJoinActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.api.Context
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.skt.Tmap.TMapGpsManager
+import com.skt.Tmap.TMapGpsManager.GPS_PROVIDER
 import com.skt.Tmap.TMapView
+import kotlin.math.log
 
 
 class MainActivity : AppCompatActivity(){
@@ -116,18 +119,18 @@ class MainActivity : AppCompatActivity(){
     private val notice: ImageButton by lazy {
         findViewById(R.id.btn_notice)
     }
-
-
-
-
-
-    var tmapView: TMapView? = null
-    var tmap: TMapGpsManager? = null
+//    var p1:Location?=null
+//    var tmap: TMapGpsManager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+//        tmap= TMapGpsManager(this)
+//        tmap!!.provider=GPS_PROVIDER
+//        tmap!!.minTime=1000
+//        tmap!!.OpenGps()
 
         val db = Firebase.firestore
         val docRef = db.collection("users")
@@ -146,6 +149,13 @@ class MainActivity : AppCompatActivity(){
                 docRef.document(currentUser_email_addr).get().addOnSuccessListener { document ->
                     if (document.data!!.get("picker_flag") != "1") {
                         ask_picker()
+                    }else{
+//                        Log.d("picker_location1",tmap!!.location.latitude.toString())
+//                        Log.d("picker_location2",tmap!!.location.longitude.toString())
+//
+//                        var lat=tmap!!.location.latitude
+//                        var lon=tmap!!.location.longitude
+//                        replaceFragment(HomeFragment_2())
                     }
                 }
             }
@@ -184,6 +194,10 @@ class MainActivity : AppCompatActivity(){
 
     }
 
+//    override fun onLocationChange(p0: Location?) {
+//
+//
+//    }
 
 
 }
