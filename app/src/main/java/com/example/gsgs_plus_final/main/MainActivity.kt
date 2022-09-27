@@ -142,6 +142,12 @@ class MainActivity : AppCompatActivity(){
         transaction.add(frame.id, HomeFragment())
             .commit()
 
+        docRef.document(currentUser_email_addr).get().addOnSuccessListener{
+                document ->
+            if(document.data!!.get("picker_flag") == "1" && document.data!!.get("doing_flag") == "1"){
+                pick_up.isChecked = true
+            }
+        }
 
 
         pick_up.setOnCheckedChangeListener { _, onSwitch ->
@@ -149,7 +155,9 @@ class MainActivity : AppCompatActivity(){
                 docRef.document(currentUser_email_addr).get().addOnSuccessListener { document ->
                     if (document.data!!.get("picker_flag") != "1") {
                         ask_picker()
-                    }else{
+                    }else if(document.data!!.get("picker_flag") =="1" && document.data!!.get("doing_flag") == "0"){
+
+                        docRef.document(currentUser_email_addr).update("doing_flag","1")
 //                        Log.d("picker_location1",tmap!!.location.latitude.toString())
 //                        Log.d("picker_location2",tmap!!.location.longitude.toString())
 //
@@ -158,6 +166,8 @@ class MainActivity : AppCompatActivity(){
 //                        replaceFragment(HomeFragment_2())
                     }
                 }
+            }else{
+                docRef.document(currentUser_email_addr).update("doing_flag","0")
             }
         }
 

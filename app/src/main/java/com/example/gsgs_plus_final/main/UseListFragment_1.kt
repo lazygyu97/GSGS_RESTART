@@ -1,6 +1,7 @@
 package com.example.gsgs_plus_final.main
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -49,7 +50,8 @@ class UseListFragment_1 : Fragment() {
 
         docRef2.document(auth.currentUser!!.email.toString()).get().addOnSuccessListener { task ->
             if (task.data!!.get("doing_flag") == "0") {
-                docRef.whereEqualTo("pick_up_check_flag", "1").get()
+                Log.d("잘왔어요~0","잘왔네요~0")
+                docRef.whereEqualTo("pick_up_check_flag", "0").get()
                     .addOnSuccessListener { documents ->
                         for (document in documents) {
 
@@ -76,12 +78,48 @@ class UseListFragment_1 : Fragment() {
                                         document_id,
                                         pick_up_flag))
 
-                                }
+                                }//apply
+                            } //if
+                        }//for
+                        Log.d("잘왔어요~1","잘왔네요~1")
+
+                        docRef.whereEqualTo("pick_up_check_flag", "1").get()
+                            .addOnSuccessListener { documents ->
+                                for (document in documents) {
+
+                                    if (document.data.get("uid") == auth.currentUser!!.uid) {
+                                        val start_addr: String =
+                                            document.data["pick_up_item_addr_start"].toString()
+                                        val end_addr: String =
+                                            document.data["pick_up_item_addr_end"].toString()
+
+                                        val start = start_addr.substring(8, 14)
+                                        val end = end_addr.substring(8, 14)
+
+                                        val request_cost: String =
+                                            document.data["pick_up_item_cost"].toString()
+                                        val document_id: String = document.id
+                                        val pick_up_flag: String =
+                                            document.data["pick_up_check_flag"].toString()
+
+                                        pickList.apply {
+
+                                            add(pick_list2(start,
+                                                end,
+                                                request_cost,
+                                                document_id,
+                                                pick_up_flag))
+
+                                        }//apply
+                                    } //if
+                                }//for
+
                             }
-                        }
+                        Log.d("잘왔어요~2","잘왔네요~2")
                         val adapter = UseListAdapter(pickList)
                         list.adapter = adapter
-                    }
+
+                    }//document
             } else {
 
                 docRef.whereEqualTo("pick_up_check_flag", "1").get()

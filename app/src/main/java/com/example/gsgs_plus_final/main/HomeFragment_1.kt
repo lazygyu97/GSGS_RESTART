@@ -302,8 +302,8 @@ class HomeFragment_1 : Fragment(), TMapGpsManager.onLocationChangedCallback,
                     document.data!!.get("p_num").toString(),
                     auth.currentUser!!.uid,
                     pick_up_item_name.text.toString(),
-                    pick_up_item_addr_start.text.toString() + pick_up_item_addr_start_detail.text.toString(),
-                    pick_up_item_addr_end.text.toString() + pick_up_item_addr_end_detaol.text.toString(),
+                    pick_up_item_addr_start.text.toString()+"!"+ pick_up_item_addr_start_detail.text.toString(),
+                    pick_up_item_addr_end.text.toString()+"!"+pick_up_item_addr_end_detaol.text.toString(),
                     pick_up_item_request.text.toString(),
                     pick_up_item_cost.text.toString(),
                     "0",
@@ -319,7 +319,7 @@ class HomeFragment_1 : Fragment(), TMapGpsManager.onLocationChangedCallback,
                 val end = pick_up_item_addr_end.text.toString().substring(8, 14)
                 val user_id = auth.currentUser!!.email
 
-                docRef.document(makeRequestUid()).set(pick_up_request)
+                docRef.document(result).set(pick_up_request)
                 docRef3.document(auth.currentUser!!.email.toString())
                     .update("pick_up_list", FieldValue.arrayUnion(makeRequestUid()))
                 activity?.let {

@@ -38,6 +38,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.skt.Tmap.*
 import com.skt.Tmap.TMapGpsManager.GPS_PROVIDER
+import com.skt.Tmap.TMapGpsManager.NETWORK_PROVIDER
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -99,6 +100,7 @@ class HomeFragment_2 : Fragment(), TMapGpsManager.onLocationChangedCallback {
 
         tmap = TMapGpsManager(context)
         tmap!!.provider = GPS_PROVIDER
+//        tmap!!.provider = NETWORK_PROVIDER
         tmap!!.minTime = 1000
         tmap!!.OpenGps()
 
@@ -468,10 +470,9 @@ class HomeFragment_2 : Fragment(), TMapGpsManager.onLocationChangedCallback {
                                                             context,
                                                             BeforePickUpActivity::class.java
                                                         )
-
-                                                        intent.putExtra("Data", accept_doc_id)
                                                         intent.putExtra("MyLocation_lat", tmap!!.location.latitude.toString())
                                                         intent.putExtra("MyLocation_lon", tmap!!.location.longitude.toString())
+                                                        intent.putExtra("Data", accept_doc_id)
                                                         startActivity(intent)
                                                     }
 

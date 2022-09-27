@@ -49,6 +49,7 @@
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
                             android:enabled="true"
+                            android:checked="false"
                             android:fontFamily="@font/cafe24"
                             android:text="픽업\n활동"
                             android:textColor="@color/black" />
