@@ -83,7 +83,7 @@ class HomeFragment_2 : Fragment(), TMapGpsManager.onLocationChangedCallback {
         val v =
             inflater.inflate(com.example.gsgs_plus_final.R.layout.fragment_home_2, container, false)
         val mainAct = activity as MainActivity
-        var dialog =LoadingDialog(requireContext())
+        var dialog = LoadingDialog(requireContext())
 
 
         val maps = v.findViewById<ConstraintLayout>(com.example.gsgs_plus_final.R.id.TMapView)
@@ -171,8 +171,8 @@ class HomeFragment_2 : Fragment(), TMapGpsManager.onLocationChangedCallback {
                                                     document.data["pick_up_item_addr_start"].toString()
                                                 val end_addr: String =
                                                     document.data["pick_up_item_addr_end"].toString()
-
-
+                                                val item_name: String =
+                                                    document.data["pick_up_item_name"].toString()
 
 
                                                 val start = start_addr.substring(8, 14)
@@ -192,6 +192,7 @@ class HomeFragment_2 : Fragment(), TMapGpsManager.onLocationChangedCallback {
 
                                                     add(
                                                         pick_list(
+                                                            item_name,
                                                             start_addr,
                                                             end_addr,
                                                             start,
@@ -295,13 +296,20 @@ class HomeFragment_2 : Fragment(), TMapGpsManager.onLocationChangedCallback {
                                                         v.findViewById<TextView>(com.example.gsgs_plus_final.R.id.request_cost).text =
                                                             data.request_cost
 
-                                                        val split = data.addr_start_f.toString().split("!")
-                                                        val split2 = data.addr_end_f.toString().split("!")
 
-                                                        v.findViewById<TextView>(com.example.gsgs_plus_final.R.id.addr1).text = split[0]
-                                                        v.findViewById<TextView>(com.example.gsgs_plus_final.R.id.addr2).text = split[1]
-                                                        v.findViewById<TextView>(com.example.gsgs_plus_final.R.id.addr3).text = split2[0]
-                                                        v.findViewById<TextView>(com.example.gsgs_plus_final.R.id.addr4).text = split2[1]
+                                                        val split =
+                                                            data.addr_start_f.toString().split("!")
+                                                        val split2 =
+                                                            data.addr_end_f.toString().split("!")
+
+                                                        v.findViewById<TextView>(com.example.gsgs_plus_final.R.id.addr1).text =
+                                                            split[0]
+                                                        v.findViewById<TextView>(com.example.gsgs_plus_final.R.id.addr2).text =
+                                                            split[1]
+                                                        v.findViewById<TextView>(com.example.gsgs_plus_final.R.id.addr3).text =
+                                                            split2[0]
+                                                        v.findViewById<TextView>(com.example.gsgs_plus_final.R.id.addr4).text =
+                                                            split2[1]
 
                                                         accept_doc_id = data.document_id
 
@@ -479,8 +487,14 @@ class HomeFragment_2 : Fragment(), TMapGpsManager.onLocationChangedCallback {
                                                             context,
                                                             BeforePickUpActivity::class.java
                                                         )
-                                                        intent.putExtra("MyLocation_lat", tmap!!.location.latitude.toString())
-                                                        intent.putExtra("MyLocation_lon", tmap!!.location.longitude.toString())
+                                                        intent.putExtra(
+                                                            "MyLocation_lat",
+                                                            tmap!!.location.latitude.toString()
+                                                        )
+                                                        intent.putExtra(
+                                                            "MyLocation_lon",
+                                                            tmap!!.location.longitude.toString()
+                                                        )
                                                         intent.putExtra("Data", accept_doc_id)
                                                         startActivity(intent)
                                                     }
