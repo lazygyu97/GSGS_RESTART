@@ -17,6 +17,7 @@ import com.example.tmaptest.retrofit.GeoCodingInterface
 import com.example.tmaptest.retrofit.RetrofitClient
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.skt.Tmap.*
@@ -39,6 +40,7 @@ class DoingPickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChange
     private lateinit var endY: String
     private lateinit var addr_end: String
     private lateinit var rs: String
+    private lateinit var data:String
 
     private lateinit var retrofit: Retrofit
     private lateinit var supplementService: GeoCodingInterface
@@ -76,7 +78,7 @@ class DoingPickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChange
         val pick_addr2 = findViewById<TextView>(R.id.addr2)
         val request = findViewById<TextView>(R.id.re)
 
-        val data = intent.getStringExtra("Data")
+        data = intent.getStringExtra("Data").toString()
         // Log.d("testset",data.toString())
         auth = Firebase.auth
 
@@ -286,13 +288,17 @@ class DoingPickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChange
             tmapView!!.addTMapPolyLine("Line2", poly1)
 
         }.start()
+        docRef.document(data.toString())
+            .update(
+                "doing_x",
+                FieldValue.arrayUnion(poly1.linePoint[poly1.linePoint.lastIndex].latitude)
+            )
 
-        //데이터베이스에 아래 값 추가하면됩니다
-        for (i in 0 until poly1.linePoint.size) {
-            Log.d("polypath : ",poly1.linePoint[i].toString())
-        }
-
-
+        docRef.document(data.toString())
+            .update(
+                "doing_y",
+                FieldValue.arrayUnion(poly1.linePoint[poly1.linePoint.lastIndex].longitude)
+            )
 
     }
 }

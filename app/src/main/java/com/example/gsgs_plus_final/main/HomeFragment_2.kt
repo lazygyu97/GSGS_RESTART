@@ -10,6 +10,7 @@ import android.location.Location
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.text.TextUtils.split
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -171,6 +172,9 @@ class HomeFragment_2 : Fragment(), TMapGpsManager.onLocationChangedCallback {
                                                 val end_addr: String =
                                                     document.data["pick_up_item_addr_end"].toString()
 
+
+
+
                                                 val start = start_addr.substring(8, 14)
                                                 val end = end_addr.substring(8, 14)
 
@@ -188,6 +192,8 @@ class HomeFragment_2 : Fragment(), TMapGpsManager.onLocationChangedCallback {
 
                                                     add(
                                                         pick_list(
+                                                            start_addr,
+                                                            end_addr,
                                                             start,
                                                             end,
                                                             findStartX,
@@ -286,12 +292,16 @@ class HomeFragment_2 : Fragment(), TMapGpsManager.onLocationChangedCallback {
                                                         page.startAnimation(animation_1)
                                                         page.visibility = View.VISIBLE
 
-                                                        v.findViewById<TextView>(com.example.gsgs_plus_final.R.id.request_addr_start).text =
-                                                            data.addr_start
-                                                        v.findViewById<TextView>(com.example.gsgs_plus_final.R.id.request_addr_end).text =
-                                                            data.addr_end
                                                         v.findViewById<TextView>(com.example.gsgs_plus_final.R.id.request_cost).text =
                                                             data.request_cost
+
+                                                        val split = data.addr_start_f.toString().split("!")
+                                                        val split2 = data.addr_end_f.toString().split("!")
+
+                                                        v.findViewById<TextView>(com.example.gsgs_plus_final.R.id.addr1).text = split[0]
+                                                        v.findViewById<TextView>(com.example.gsgs_plus_final.R.id.addr2).text = split[1]
+                                                        v.findViewById<TextView>(com.example.gsgs_plus_final.R.id.addr3).text = split2[0]
+                                                        v.findViewById<TextView>(com.example.gsgs_plus_final.R.id.addr4).text = split2[1]
 
                                                         accept_doc_id = data.document_id
 

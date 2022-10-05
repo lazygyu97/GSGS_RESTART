@@ -133,31 +133,6 @@ class HomeFragment_1 : Fragment(), TMapGpsManager.onLocationChangedCallback,
 
         }
 
-        //현재 실시간 위치
-        fun foo() {
-            Log.d("realtime", "wow!")
-            if (tmap!!.location.latitude !== 0.0) {
-                tmapView!!.setLocationPoint(tmap!!.location.longitude, tmap!!.location.latitude)
-                tmapView!!.setCenterPoint(tmap!!.location.longitude, tmap!!.location.latitude)
-
-            }
-
-        }
-
-        fun createTimerTask(): TimerTask {
-            timer = timerTask { foo() }
-
-            return timer;
-        }
-
-
-        fun main() {
-            timer = createTimerTask()
-            tm.schedule(timer, 1000, 1000);
-        }
-
-
-        main()
 
 
         val v = inflater.inflate(R.layout.fragment_home_1, container, false)
@@ -177,6 +152,30 @@ class HomeFragment_1 : Fragment(), TMapGpsManager.onLocationChangedCallback,
         tmapView!!.setLanguage(TMapView.LANGUAGE_KOREAN)
         get_picker_x_y()
         maps.addView(tmapView)
+
+        //현재 실시간 위치
+        fun foo() {
+
+            if (tmap!!.location.latitude == 0.0 && tmap!!.location.latitude == null) {
+                Log.d("realtime", "nulllllllllll!")
+
+            }else{
+                tmapView!!.setLocationPoint(tmap!!.location.longitude, tmap!!.location.latitude)
+                tmapView!!.setCenterPoint(tmap!!.location.longitude, tmap!!.location.latitude)
+            }
+
+        }
+        fun createTimerTask(): TimerTask {
+            timer = timerTask { foo() }
+
+            return timer;
+        }
+
+        fun main() {
+            timer = createTimerTask()
+            tm.schedule(timer, 1000, 1000);
+        }
+        main()
 
         tmapView!!.setOnClickListenerCallBack(object : OnClickListenerCallback {
             override fun onPressUpEvent(
