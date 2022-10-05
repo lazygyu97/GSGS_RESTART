@@ -173,7 +173,7 @@ class HomeFragment_1 : Fragment(), TMapGpsManager.onLocationChangedCallback,
 
         fun main() {
             timer = createTimerTask()
-            tm.schedule(timer, 1000, 1000);
+            tm.schedule(timer, 1000, 4000);
         }
         main()
 

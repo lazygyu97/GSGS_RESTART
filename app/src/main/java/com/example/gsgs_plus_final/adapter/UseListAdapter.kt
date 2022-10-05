@@ -55,9 +55,19 @@ class UseListAdapter(private val items: ArrayList<pick_list2>) :
     class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         private var view: View = v
         fun bind(listener: View.OnClickListener, item: pick_list2) {
-            view.findViewById<TextView>(R.id.start).text = item.addr_start
-            view.findViewById<TextView>(R.id.end).text = item.addr_end
+            val split = item.addr_start.toString().split("!")
+            val split2 = item.addr_end.toString().split("!")
+
+            val start=split[0].substring(8)
+            val end=split2[0].substring(8)
+
+            view.findViewById<TextView>(R.id.addr_S).text = start
+            view.findViewById<TextView>(R.id.addr_E).text = end
             view.setOnClickListener(listener)
+
+//            view.findViewById<TextView>(R.id.start).text = item.addr_start
+//            view.findViewById<TextView>(R.id.end).text = item.addr_end
+//            view.setOnClickListener(listener)
         }
     }
 }
