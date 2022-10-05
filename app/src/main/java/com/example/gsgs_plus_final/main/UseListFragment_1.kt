@@ -14,6 +14,7 @@ import com.example.gsgs_plus_final.R
 import com.example.gsgs_plus_final.adapter.UseListAdapter
 import com.example.gsgs_plus_final.vo.pick_list
 import com.example.gsgs_plus_final.vo.pick_list2
+import com.example.tmaptest.data.start
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
@@ -29,7 +30,11 @@ class UseListFragment_1 : Fragment() {
 
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val v = inflater.inflate(R.layout.fragment_use_list1, container, false)
 
         val mainAct = activity as MainActivity
@@ -49,8 +54,10 @@ class UseListFragment_1 : Fragment() {
         val pickList = ArrayList<pick_list2>()
 
         docRef2.document(auth.currentUser!!.email.toString()).get().addOnSuccessListener { task ->
+
             if (task.data!!.get("doing_flag") == "0") {
-                Log.d("잘왔어요~0","잘왔네요~0")
+
+                Log.d("잘왔어요~0", "잘왔네요~0")
                 docRef.whereEqualTo("pick_up_check_flag", "0").get()
                     .addOnSuccessListener { documents ->
                         for (document in documents) {
@@ -61,8 +68,8 @@ class UseListFragment_1 : Fragment() {
                                 val end_addr: String =
                                     document.data["pick_up_item_addr_end"].toString()
 
-                                val start = start_addr.substring(8, 14)
-                                val end = end_addr.substring(8, 14)
+//                                val start = start_addr.substring(8, 14)
+//                                val end = end_addr.substring(8, 14)
 
                                 val request_cost: String =
                                     document.data["pick_up_item_cost"].toString()
@@ -72,16 +79,23 @@ class UseListFragment_1 : Fragment() {
 
                                 pickList.apply {
 
-                                    add(pick_list2(start,
-                                        end,
-                                        request_cost,
-                                        document_id,
-                                        pick_up_flag))
+                                    add(
+                                        pick_list2(
+                                            start_addr,
+                                            end_addr,
+                                            request_cost,
+                                            document_id,
+                                            pick_up_flag
+                                        )
+                                    )
 
                                 }//apply
                             } //if
                         }//for
-                        Log.d("잘왔어요~1","잘왔네요~1")
+                        val adapter = UseListAdapter(pickList)
+                        list.adapter = adapter
+                    }
+                        Log.d("잘왔어요~1", "잘왔네요~1")
 
                         docRef.whereEqualTo("pick_up_check_flag", "1").get()
                             .addOnSuccessListener { documents ->
@@ -93,8 +107,8 @@ class UseListFragment_1 : Fragment() {
                                         val end_addr: String =
                                             document.data["pick_up_item_addr_end"].toString()
 
-                                        val start = start_addr.substring(8, 14)
-                                        val end = end_addr.substring(8, 14)
+//                                        val start = start_addr.substring(8, 14)
+//                                        val end = end_addr.substring(8, 14)
 
                                         val request_cost: String =
                                             document.data["pick_up_item_cost"].toString()
@@ -104,22 +118,24 @@ class UseListFragment_1 : Fragment() {
 
                                         pickList.apply {
 
-                                            add(pick_list2(start,
-                                                end,
-                                                request_cost,
-                                                document_id,
-                                                pick_up_flag))
+                                            add(
+                                                pick_list2(
+                                                    start_addr,
+                                                    end_addr,
+                                                    request_cost,
+                                                    document_id,
+                                                    pick_up_flag
+                                                )
+                                            )
 
                                         }//apply
                                     } //if
                                 }//for
-
-                            }
-                        Log.d("잘왔어요~2","잘왔네요~2")
+                        Log.d("잘왔어요~2", "잘왔네요~2")
                         val adapter = UseListAdapter(pickList)
                         list.adapter = adapter
+                    }
 
-                    }//document
             } else {
 
                 docRef.whereEqualTo("pick_up_check_flag", "1").get()
@@ -132,8 +148,8 @@ class UseListFragment_1 : Fragment() {
                                 val end_addr: String =
                                     document.data["pick_up_item_addr_end"].toString()
 
-                                val start = start_addr.substring(8, 14)
-                                val end = end_addr.substring(8, 14)
+//                                val start = start_addr.substring(8, 14)
+//                                val end = end_addr.substring(8, 14)
 
                                 val request_cost: String =
                                     document.data["pick_up_item_cost"].toString()
@@ -143,11 +159,15 @@ class UseListFragment_1 : Fragment() {
 
                                 pickList.apply {
 
-                                    add(pick_list2(start,
-                                        end,
-                                        request_cost,
-                                        document_id,
-                                        pick_up_flag))
+                                    add(
+                                        pick_list2(
+                                            start_addr,
+                                            end_addr,
+                                            request_cost,
+                                            document_id,
+                                            pick_up_flag
+                                        )
+                                    )
 
                                 }
                             }
@@ -160,7 +180,6 @@ class UseListFragment_1 : Fragment() {
             }
 
         }
-
 
 
         // Inflate the layout for this fragment

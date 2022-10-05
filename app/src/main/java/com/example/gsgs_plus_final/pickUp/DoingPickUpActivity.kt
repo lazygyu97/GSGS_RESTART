@@ -288,16 +288,17 @@ class DoingPickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChange
             tmapView!!.addTMapPolyLine("Line2", poly1)
 
         }.start()
+
         docRef.document(data.toString())
             .update(
                 "doing_x",
-                FieldValue.arrayUnion(poly1.linePoint[poly1.linePoint.lastIndex].latitude)
+                FieldValue.arrayUnion(p0.latitude)
             )
 
         docRef.document(data.toString())
             .update(
                 "doing_y",
-                FieldValue.arrayUnion(poly1.linePoint[poly1.linePoint.lastIndex].longitude)
+                FieldValue.arrayUnion(p0.longitude)
             )
 
     }
