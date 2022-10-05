@@ -1,16 +1,18 @@
 package com.example.gsgs_plus_final.pickUp
 
 import android.content.ContentValues.TAG
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat.startActivity
 import com.example.gsgs_plus_final.R
 import com.example.gsgs_plus_final.data.routes
 import com.example.tmaptest.retrofit.GeoCodingInterface
@@ -29,11 +31,34 @@ import retrofit2.Retrofit
 class BeforePickUpActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     var tmapView: TMapView? = null
+    var result: ArrayList<String>? = null
+
 
     private lateinit var retrofit: Retrofit
     private lateinit var supplementService: GeoCodingInterface
     private lateinit var km: String
     private lateinit var time: String
+    private lateinit var tmaptapi: TMapTapi
+
+    // 픽업활동 스위치 작동시 픽커여부를 판단하여 배송회원 가입을 권유하는 알림창 함수
+    private fun ask_download() {
+        val ask_down = AlertDialog.Builder(this)
+        ask_down
+            .setMessage("Tmap이 설치 되어있지 않습니다\n설치하시겠습니까?")
+            .setPositiveButton("확인",
+                DialogInterface.OnClickListener { dialog, id ->
+                    val url = result?.get(1)
+                    Log.d("설치 설치", url.toString())
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                    startActivity(intent)
+                })
+            .setNegativeButton("취소",
+                DialogInterface.OnClickListener { dialog, id ->
+                })
+        // 다이얼로그를 띄워주기
+        ask_down.show()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_before_pick_up)
@@ -51,6 +76,7 @@ class BeforePickUpActivity : AppCompatActivity() {
         val re = findViewById<TextView>(R.id.re)
         val time_txt = findViewById<TextView>(R.id.time)
         val km_txt = findViewById<TextView>(R.id.km)
+        val go_tmap = findViewById<Button>(R.id.go_tmap)
 
         val DB = intent.getStringExtra("Data")
         val lat = intent.getStringExtra("MyLocation_lat").toString()
@@ -58,6 +84,8 @@ class BeforePickUpActivity : AppCompatActivity() {
         Log.d("sdfsdf", lat)
 
         val maps = findViewById<ConstraintLayout>(R.id.TMapView)
+
+
         tmapView = TMapView(this)
         tmapView!!.setSKTMapApiKey("l7xx961891362ed44d06a261997b67e5ace6")
         tmapView!!.setZoom(13f)
@@ -65,6 +93,8 @@ class BeforePickUpActivity : AppCompatActivity() {
         tmapView!!.setMapType(TMapView.MAPTYPE_STANDARD)
         tmapView!!.setLanguage(TMapView.LANGUAGE_KOREAN)
         maps.addView(tmapView)
+
+        tmaptapi = TMapTapi(this)
 
         fun getRoutes(
             service: GeoCodingInterface, endX: Double,
@@ -103,14 +133,14 @@ class BeforePickUpActivity : AppCompatActivity() {
                         val hour = min / 60
 
                         if (hour == 0) {
-                           time_txt.text = min.toString() + "분"
+                            time_txt.text = min.toString() + "분"
                         } else {
                             if (min > 60) {
                                 var h = min / 60
                                 var m = min % 60
-                              time_txt.text = (hour + h).toString() + "시간" + m.toString() + "분"
+                                time_txt.text = (hour + h).toString() + "시간" + m.toString() + "분"
                             } else {
-                             time_txt.text = hour.toString() + "시간" + min.toString() + "분"
+                                time_txt.text = hour.toString() + "시간" + min.toString() + "분"
                             }
                         }
                         km = response.body()?.features?.get(0)?.properties?.totalDistance.toString()
@@ -209,7 +239,29 @@ class BeforePickUpActivity : AppCompatActivity() {
         }
 
 
+        //tmap 연동 코드
+        go_tmap.setOnClickListener {
+            val isTmapApp = tmaptapi.isTmapApplicationInstalled
+            Log.d("tmap 설치유무 ", isTmapApp.toString())
 
+            if (!isTmapApp) {
+                result = tmaptapi.tMapDownUrl
+                Log.d("tmap 설치 URL", result.toString())
+                ask_download()
+            } else {
+                docRef.get().addOnSuccessListener { document ->
+                    if (document != null) {
+                        val start_x = document.data?.get("startX").toString()
+                        val start_y = document.data?.get("startY").toString()
+                        tmaptapi.invokeNavigate(
+                            pick_addr1.text.toString(),
+                            start_x.toFloat(), start_y.toFloat(), 0, true
+                        )
+                    }
+                }
+
+            }
+        }
 
         btn_finish.setOnClickListener {
 

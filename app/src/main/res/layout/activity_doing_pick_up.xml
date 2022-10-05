@@ -30,7 +30,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="배송중"
+                android:text="배송 진행 중"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="18dp" />
@@ -39,153 +39,178 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="안전하고 정확한 배송 부탁드립니다!"
+                android:text="수령한 물품을 목적지까지 안전하게 전달 부탁드립니다!"
                 android:textAlignment="center"
                 android:textSize="10dp" />
         </LinearLayout>
     </RelativeLayout>
 
-    <LinearLayout
-        android:layout_width="350dp"
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:orientation="vertical">
+        android:fillViewport="true">
 
         <LinearLayout
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_marginTop="30dp"
             android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="배송 목적지"
-                android:textColor="@color/black"
-                android:textSize="20dp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="도로명 주소" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="상세 주소" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="50dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="요청 사항"
-                android:textColor="@color/black"
-                android:textSize="20dp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="요청 사항 입니다!" />
-
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
-            android:orientation="vertical">
-
-            <TextView
-
-                android:layout_width="240dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="픽업 장소 길찾기"
-                android:textColor="@color/black"
-                android:textSize="18dp" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/btn_edge"
-                android:orientation="horizontal">
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
 
-                <Button
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="20dp"
-                    android:background="@drawable/ic_naver_map" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="배송 목적지"
+                    android:textColor="@color/black"
+                    android:textSize="20dp" />
 
-                <Button
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="40dp"
-                    android:layout_marginRight="40dp"
-                    android:background="@drawable/ic_t_map" />
+                <TextView
+                    android:id="@+id/addr1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="도로명 주소" />
 
-                <Button
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginRight="20dp"
-                    android:background="@drawable/ic_kakao_map" />
+                <TextView
+                    android:id="@+id/addr2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="상세 주소" />
+
 
             </LinearLayout>
-        </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="280dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="50dp"
-            android:orientation="vertical">
-
-            <Button
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/btn_edge"
-                android:text="요청 회원과 채팅하기" />
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/btn_edge"
-                android:text="배송 지연" />
+                android:orientation="vertical">
 
-            <Button
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="요청 사항"
+                    android:textColor="@color/black"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/re"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="요청 사항 입니다!" />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/btn_edge"
-                android:text="전달 완료 사진 등록" />
+                android:layout_height="395dp"
+                android:layout_marginTop="30dp"
+                android:orientation="vertical">
 
+                <TextView
 
-            <Button
-                android:id="@+id/btn_finish"
-                android:layout_width="match_parent"
+                    android:layout_width="240dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="목적지까지 예상 경로"
+                    android:textColor="@color/black"
+                    android:textSize="18dp" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/TMapView"
+                    android:layout_width="300dp"
+                    android:layout_height="300dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/btn_edge" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="예상 거리 :"
+                        android:textAlignment="center" />
+
+                    <TextView
+                        android:id="@+id/km"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="1시간 10분" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="예상 소요 시간 :"
+                        android:textAlignment="center" />
+
+                    <TextView
+                        android:id="@+id/time"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="1시간 10분" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="280dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/btn_edge"
-                android:text="배송 완료" />
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
+                <Button
+                    android:id="@+id/go_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/btn_edge"
+                    android:text="예상 추가 시간 입력" />
+                <Button
+                    android:id="@+id/go_tmap"
+                    android:layout_marginTop="10dp"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/btn_edge"
+                    android:text="티맵으로 경로 안내 받기" />
+
+                <Button
+                    android:id="@+id/btn_finish"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/btn_edge"
+                    android:text="픽업 완료" />
+            </LinearLayout>
+
         </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
-    </LinearLayout>
 
 </LinearLayout>
