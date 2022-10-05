@@ -76,11 +76,14 @@ class UseListFragment_1 : Fragment() {
                                 val document_id: String = document.id
                                 val pick_up_flag: String =
                                     document.data["pick_up_check_flag"].toString()
+                                val item_name: String =
+                                    document.data["pick_up_item_name"].toString()
 
                                 pickList.apply {
 
                                     add(
                                         pick_list2(
+                                            item_name,
                                             start_addr,
                                             end_addr,
                                             request_cost,
@@ -115,11 +118,13 @@ class UseListFragment_1 : Fragment() {
                                         val document_id: String = document.id
                                         val pick_up_flag: String =
                                             document.data["pick_up_check_flag"].toString()
-
+                                        val item_name: String =
+                                            document.data["pick_up_item_name"].toString()
                                         pickList.apply {
 
                                             add(
                                                 pick_list2(
+                                                    item_name,
                                                     start_addr,
                                                     end_addr,
                                                     request_cost,
@@ -156,11 +161,13 @@ class UseListFragment_1 : Fragment() {
                                 val document_id: String = document.id
                                 val pick_up_flag: String =
                                     document.data["pick_up_check_flag"].toString()
-
+                                val item_name: String =
+                                    document.data["pick_up_item_name"].toString()
                                 pickList.apply {
 
                                     add(
                                         pick_list2(
+                                            item_name,
                                             start_addr,
                                             end_addr,
                                             request_cost,

@@ -29,11 +29,10 @@ class PickUpListAdapter(private val items: ArrayList<pick_list>) :
     override fun onBindViewHolder(holder: PickUpListAdapter.ViewHolder, position: Int) {
 
         val item = items[position]
-        Log.d("data!!!!:",item.toString())
+        Log.d("data!!!!:", item.toString())
         val listener = View.OnClickListener { it ->
-            if(position!= RecyclerView.NO_POSITION)
-            {
-                listener?.onItemClick(item,position)
+            if (position != RecyclerView.NO_POSITION) {
+                listener?.onItemClick(item, position)
             }
         }
 
@@ -54,11 +53,6 @@ class PickUpListAdapter(private val items: ArrayList<pick_list>) :
     }
 
 
-
-
-
-
-
     // 각 항목에 필요한 기능을 구현
     class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         private var view: View = v
@@ -66,9 +60,10 @@ class PickUpListAdapter(private val items: ArrayList<pick_list>) :
             val split = item.addr_start_f.toString().split("!")
             val split2 = item.addr_end_f.toString().split("!")
 
-            val start=split[0].substring(8)
-            val end=split2[0].substring(8)
-
+            val start = split[0].substring(8)
+            val end = split2[0].substring(8)
+            view.findViewById<TextView>(R.id.name).text = item.item_name
+            view.findViewById<TextView>(R.id.money).text = item.request_cost
             view.findViewById<TextView>(R.id.addr_S).text = start
             view.findViewById<TextView>(R.id.addr_E).text = end
             view.setOnClickListener(listener)

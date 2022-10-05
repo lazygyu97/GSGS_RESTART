@@ -68,10 +68,13 @@ class UseListFragment_2 : Fragment() {
                                 val document_id: String = document.id
                                 val pick_up_flag: String =
                                     document.data["pick_up_check_flag"].toString()
-
+                                val item_name: String =
+                                    document.data["pick_up_item_name"].toString()
                                 pickList.apply {
 
-                                    add(pick_list2(start,
+                                    add(pick_list2(
+                                        item_name,
+                                        start,
                                         end,
                                         request_cost,
                                         document_id,
@@ -104,10 +107,13 @@ class UseListFragment_2 : Fragment() {
                                 val document_id: String = document.id
                                 val pick_up_flag: String =
                                     document.data["pick_up_check_flag"].toString()
-
+                                val item_name: String =
+                                    document.data["pick_up_item_name"].toString()
                                 pickList.apply {
 
-                                    add(pick_list2(start,
+                                    add(pick_list2(
+                                        item_name,
+                                        start,
                                         end,
                                         request_cost,
                                         document_id,

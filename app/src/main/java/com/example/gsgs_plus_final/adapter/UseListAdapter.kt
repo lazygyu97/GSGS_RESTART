@@ -61,6 +61,8 @@ class UseListAdapter(private val items: ArrayList<pick_list2>) :
             val start=split[0].substring(8)
             val end=split2[0].substring(8)
 
+            view.findViewById<TextView>(R.id.name).text = item.item_name
+            view.findViewById<TextView>(R.id.money).text = item.request_cost
             view.findViewById<TextView>(R.id.addr_S).text = start
             view.findViewById<TextView>(R.id.addr_E).text = end
             view.setOnClickListener(listener)
