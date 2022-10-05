@@ -97,7 +97,6 @@ class HomeFragment_2 : Fragment(), TMapGpsManager.onLocationChangedCallback {
         //요청서 지도 띄우는 위치
         maps.addView(tmapView)
 
-
         tmap = TMapGpsManager(context)
         tmap!!.provider = GPS_PROVIDER
 //        tmap!!.provider = NETWORK_PROVIDER

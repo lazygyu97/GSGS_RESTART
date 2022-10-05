@@ -5,6 +5,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.location.Location
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -28,19 +29,21 @@ import retrofit2.Response
 import retrofit2.Retrofit
 
 
-class BeforePickUpActivity : AppCompatActivity() {
-    private lateinit var auth: FirebaseAuth
+class BeforePickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChangedCallback {
+
     var tmapView: TMapView? = null
     var result: ArrayList<String>? = null
+    val poly1 = TMapPolyLine()
+    var tmap: TMapGpsManager? = null
 
-
+    private lateinit var auth: FirebaseAuth
     private lateinit var retrofit: Retrofit
     private lateinit var supplementService: GeoCodingInterface
     private lateinit var km: String
     private lateinit var time: String
     private lateinit var tmaptapi: TMapTapi
 
-    // 픽업활동 스위치 작동시 픽커여부를 판단하여 배송회원 가입을 권유하는 알림창 함수
+    // 티맵 설치 설치 권유 다이얼로그
     private fun ask_download() {
         val ask_down = AlertDialog.Builder(this)
         ask_down
@@ -69,6 +72,14 @@ class BeforePickUpActivity : AppCompatActivity() {
 
         retrofit = RetrofitClient.getInstance() // retrofit 초기화
         supplementService = retrofit.create(GeoCodingInterface::class.java) // 서비스 가져오기
+
+        //실시간 현재위치
+        tmap = TMapGpsManager(this)
+        tmap!!.provider = TMapGpsManager.GPS_PROVIDER
+        tmap!!.minTime = 1000
+        tmap!!.minDistance = 5F
+        tmap!!.provider = TMapGpsManager.GPS_PROVIDER
+        tmap!!.OpenGps()
 
         val btn_finish = findViewById<Button>(R.id.btn_finish)
         val pick_addr1 = findViewById<TextView>(R.id.addr1)
@@ -184,7 +195,7 @@ class BeforePickUpActivity : AppCompatActivity() {
                     val bitmap = BitmapFactory.decodeResource(this.resources, R.drawable.pin)
                     val bitmap2 = BitmapFactory.decodeResource(
                         this.resources,
-                        R.drawable.delivery_pin
+                        R.drawable.pin
                     )
 
                     markerItem1.icon = bitmap // 마커 아이콘 지정
@@ -208,8 +219,12 @@ class BeforePickUpActivity : AppCompatActivity() {
                     try {
                         val poly: TMapPolyLine = TMapData().findPathData(pointS, pointE)
 
-                        poly.lineColor = Color.BLUE
-                        poly.lineWidth = 20F
+                        poly.lineColor = Color.LTGRAY
+                        poly.outLineColor = Color.DKGRAY
+                        poly.lineAlpha = 100
+                        poly.outLineAlpha = 100
+                        poly.outLineWidth = 20f
+                        poly.lineWidth = 10f
 
                         if (poly.distance / 1000 > 50) {
                             tmapView!!.setZoom(8f)
@@ -269,5 +284,40 @@ class BeforePickUpActivity : AppCompatActivity() {
             intent.putExtra("Data", DB)
             startActivity(intent)
         }
+    }
+
+
+    override fun onLocationChange(p0: Location?) {
+
+        Log.d("현재위치1", p0!!.latitude.toString())
+        Log.d("현재위치1", p0!!.longitude.toString())
+
+        val bitmap3 = BitmapFactory.decodeResource(this.resources, R.drawable.delivery_pin)
+        val markerItem3 = TMapMarkerItem()
+        markerItem3.icon = bitmap3 // 마커 아이콘 지정
+        markerItem3.setPosition(0.5f, 1.0f) // 마커의 중심점을 중앙, 하단으로 설정
+        markerItem3.tMapPoint = TMapPoint(p0!!.latitude, p0!!.longitude) // 마커의 좌표 지정
+        tmapView!!.addMarkerItem(
+            "markerItem3",
+            markerItem3
+        ) // 지도에 마커 추가
+
+        // db에 패스데이터 넘기기
+        val db = Firebase.firestore
+        val docRef = db.collection("pick_up_request")
+
+        val t2 = Thread() {
+            val lo = TMapPoint(p0!!.latitude, p0!!.longitude)
+
+            // alTMapPoint.add(lo)
+
+            poly1.addLinePoint(lo)
+
+            poly1.outLineColor = Color.BLUE
+            poly1.outLineWidth = 20f
+
+            tmapView!!.addTMapPolyLine("Line2", poly1)
+
+        }.start()
     }
 }

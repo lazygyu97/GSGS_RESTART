@@ -30,7 +30,6 @@ import retrofit2.Retrofit
 class DoingPickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChangedCallback {
 
     var tmapView: TMapView? = null
-    val alTMapPoint = ArrayList<TMapPoint>()
     val poly1= TMapPolyLine()
 
     private lateinit var auth: FirebaseAuth
@@ -207,7 +206,7 @@ class DoingPickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChange
 
                     try {
                         val poly: TMapPolyLine = TMapData().findPathData(pointS, pointE)
-                        Log.d("adsfasf", TMapData().findPathData(pointS, pointE).toString())
+
                         poly.lineColor = Color.LTGRAY
                         poly.outLineColor=Color.DKGRAY
                         poly.lineAlpha=100
@@ -279,8 +278,6 @@ class DoingPickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChange
         val t2 = Thread() {
            val lo= TMapPoint(p0!!.latitude, p0!!.longitude)
 
-           // alTMapPoint.add(lo)
-
             poly1.addLinePoint(lo)
 
             poly1.outLineColor = Color.BLUE
@@ -289,6 +286,12 @@ class DoingPickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChange
             tmapView!!.addTMapPolyLine("Line2", poly1)
 
         }.start()
+
+        //데이터베이스에 아래 값 추가하면됩니다
+        for (i in 0 until poly1.linePoint.size) {
+            Log.d("polypath : ",poly1.linePoint[i].toString())
+        }
+
 
 
     }
