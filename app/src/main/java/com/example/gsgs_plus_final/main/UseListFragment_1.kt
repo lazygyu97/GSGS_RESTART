@@ -1,5 +1,6 @@
 package com.example.gsgs_plus_final.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gsgs_plus_final.R
 import com.example.gsgs_plus_final.adapter.UseListAdapter
+import com.example.gsgs_plus_final.using.UsingCheckActivity
 import com.example.gsgs_plus_final.vo.pick_list
 import com.example.gsgs_plus_final.vo.pick_list2
 import com.example.tmaptest.data.start
@@ -97,48 +99,62 @@ class UseListFragment_1 : Fragment() {
                         }//for
                         val adapter = UseListAdapter(pickList)
                         list.adapter = adapter
+
+                        adapter.setOnItemClickListener(object : UseListAdapter.OnItemClickListener {
+                            override fun onItemClick(data: pick_list2, pos: Int) {
+                                val intent = Intent(context, UsingCheckActivity::class.java)
+                                intent.putExtra("data", data.document_id)
+                                startActivity(intent)
+                            }
+                        })
                     }
-                        Log.d("잘왔어요~1", "잘왔네요~1")
+                Log.d("잘왔어요~1", "잘왔네요~1")
 
-                        docRef.whereEqualTo("pick_up_check_flag", "1").get()
-                            .addOnSuccessListener { documents ->
-                                for (document in documents) {
+                docRef.whereEqualTo("pick_up_check_flag", "1").get()
+                    .addOnSuccessListener { documents ->
+                        for (document in documents) {
 
-                                    if (document.data.get("uid") == auth.currentUser!!.uid) {
-                                        val start_addr: String =
-                                            document.data["pick_up_item_addr_start"].toString()
-                                        val end_addr: String =
-                                            document.data["pick_up_item_addr_end"].toString()
+                            if (document.data.get("uid") == auth.currentUser!!.uid) {
+                                val start_addr: String =
+                                    document.data["pick_up_item_addr_start"].toString()
+                                val end_addr: String =
+                                    document.data["pick_up_item_addr_end"].toString()
 
 //                                        val start = start_addr.substring(8, 14)
 //                                        val end = end_addr.substring(8, 14)
 
-                                        val request_cost: String =
-                                            document.data["pick_up_item_cost"].toString()
-                                        val document_id: String = document.id
-                                        val pick_up_flag: String =
-                                            document.data["pick_up_check_flag"].toString()
-                                        val item_name: String =
-                                            document.data["pick_up_item_name"].toString()
-                                        pickList.apply {
+                                val request_cost: String =
+                                    document.data["pick_up_item_cost"].toString()
+                                val document_id: String = document.id
+                                val pick_up_flag: String =
+                                    document.data["pick_up_check_flag"].toString()
+                                val item_name: String =
+                                    document.data["pick_up_item_name"].toString()
+                                pickList.apply {
 
-                                            add(
-                                                pick_list2(
-                                                    item_name,
-                                                    start_addr,
-                                                    end_addr,
-                                                    request_cost,
-                                                    document_id,
-                                                    pick_up_flag
-                                                )
-                                            )
+                                    add(
+                                        pick_list2(
+                                            item_name,
+                                            start_addr,
+                                            end_addr,
+                                            request_cost,
+                                            document_id,
+                                            pick_up_flag
+                                        )
+                                    )
 
-                                        }//apply
-                                    } //if
-                                }//for
+                                }//apply
+                            } //if
+                        }//for
                         Log.d("잘왔어요~2", "잘왔네요~2")
                         val adapter = UseListAdapter(pickList)
                         list.adapter = adapter
+                        adapter.setOnItemClickListener(object : UseListAdapter.OnItemClickListener {
+                            override fun onItemClick(data: pick_list2, pos: Int) {
+                                val intent = Intent(context, UsingCheckActivity::class.java)
+                                intent.putExtra("data", data.document_id)
+                                startActivity(intent)                            }
+                        })
                     }
 
             } else {
@@ -182,6 +198,12 @@ class UseListFragment_1 : Fragment() {
                         }
                         val adapter = UseListAdapter(pickList)
                         list.adapter = adapter
+                        adapter.setOnItemClickListener(object : UseListAdapter.OnItemClickListener {
+                            override fun onItemClick(data: pick_list2, pos: Int) {
+                                val intent = Intent(context, UsingCheckActivity::class.java)
+                                intent.putExtra("data", data.document_id)
+                                startActivity(intent)                            }
+                        })
                     }
 
             }

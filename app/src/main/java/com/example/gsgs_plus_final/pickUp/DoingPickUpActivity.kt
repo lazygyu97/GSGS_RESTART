@@ -22,6 +22,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.skt.Tmap.*
 import com.skt.Tmap.TMapGpsManager.GPS_PROVIDER
+import com.skt.Tmap.TMapGpsManager.NETWORK_PROVIDER
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -48,22 +49,24 @@ class DoingPickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChange
     private lateinit var time: String
     private lateinit var tmaptapi: TMapTapi
 
-    var tmap: TMapGpsManager? = null
+    private var tmap: TMapGpsManager? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_doing_pick_up)
 
+        auth = Firebase.auth
+
         retrofit = RetrofitClient.getInstance() // retrofit 초기화
         supplementService = retrofit.create(GeoCodingInterface::class.java) // 서비스 가져오기
 
         //실시간 현재위치
         tmap = TMapGpsManager(this)
-        tmap!!.provider = TMapGpsManager.GPS_PROVIDER
         tmap!!.minTime = 1000
         tmap!!.minDistance = 5F
         tmap!!.provider = GPS_PROVIDER
+//        tmap!!.provider = NETWORK_PROVIDER
         tmap!!.OpenGps()
 
         val btn_finish = findViewById<Button>(R.id.btn_finish)
@@ -79,8 +82,7 @@ class DoingPickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChange
         val request = findViewById<TextView>(R.id.re)
 
         data = intent.getStringExtra("Data").toString()
-        // Log.d("testset",data.toString())
-        auth = Firebase.auth
+
 
         //지도 띄어주기
         val maps = findViewById<ConstraintLayout>(R.id.TMapView)
@@ -249,7 +251,7 @@ class DoingPickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChange
 
             docRef.document(data.toString()).get().addOnSuccessListener { task ->
                 if (task.data!!.get("uid_2").toString() == auth.currentUser!!.uid) {
-                    docRef.document(data.toString()).update("pick_up_check_flag", "2")
+                    docRef.document(data.toString()).update("pick_up_check_flag", "3")
                 }
             }
 
@@ -262,12 +264,12 @@ class DoingPickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChange
     override fun onLocationChange(p0: Location?) {
 
         Log.d("현재위치1", p0!!.latitude.toString())
-        Log.d("현재위치1", p0!!.longitude.toString())
+        Log.d("현재위치1", p0.longitude.toString())
         val bitmap3 = BitmapFactory.decodeResource(this.resources, R.drawable.delivery_pin)
         val markerItem3 = TMapMarkerItem()
         markerItem3.icon = bitmap3 // 마커 아이콘 지정
         markerItem3.setPosition(0.5f, 1.0f) // 마커의 중심점을 중앙, 하단으로 설정
-        markerItem3.tMapPoint = TMapPoint(p0!!.latitude, p0!!.longitude) // 마커의 좌표 지정
+        markerItem3.tMapPoint = TMapPoint(p0.latitude, p0.longitude) // 마커의 좌표 지정
         tmapView!!.addMarkerItem(
             "markerItem3",
             markerItem3
@@ -278,7 +280,7 @@ class DoingPickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChange
         val docRef = db.collection("pick_up_request")
 
         val t2 = Thread() {
-           val lo= TMapPoint(p0!!.latitude, p0!!.longitude)
+           val lo= TMapPoint(p0.latitude, p0.longitude)
 
             poly1.addLinePoint(lo)
 
@@ -289,13 +291,13 @@ class DoingPickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChange
 
         }.start()
 
-        docRef.document(data.toString())
+        docRef.document(data)
             .update(
                 "doing_x",
                 FieldValue.arrayUnion(p0.latitude)
             )
 
-        docRef.document(data.toString())
+        docRef.document(data)
             .update(
                 "doing_y",
                 FieldValue.arrayUnion(p0.longitude)

@@ -43,6 +43,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.skt.Tmap.TMapGpsManager
 import com.skt.Tmap.TMapGpsManager.GPS_PROVIDER
+import com.skt.Tmap.TMapGpsManager.NETWORK_PROVIDER
 import com.skt.Tmap.TMapMarkerItem
 import com.skt.Tmap.TMapPoint
 import com.skt.Tmap.TMapView
@@ -218,7 +219,7 @@ class HomeFragment_1 : Fragment(), TMapGpsManager.onLocationChangedCallback,
 
         tmap = TMapGpsManager(context)
         tmap!!.provider = GPS_PROVIDER
-        //tmap!!.provider = NETWORK_PROVIDER
+//        tmap!!.provider = NETWORK_PROVIDER
         tmap!!.minTime = 1000
         tmap!!.OpenGps()
 
@@ -305,6 +306,8 @@ class HomeFragment_1 : Fragment(), TMapGpsManager.onLocationChangedCallback,
                     pick_up_item_addr_end.text.toString()+"!"+pick_up_item_addr_end_detaol.text.toString(),
                     pick_up_item_request.text.toString(),
                     pick_up_item_cost.text.toString(),
+                    "0",
+                    "0",
                     "0",
                     start_X.text.toString(),
                     start_Y.text.toString(),

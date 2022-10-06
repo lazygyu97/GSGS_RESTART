@@ -12,13 +12,7 @@
         android:layout_height="65dp"
         android:background="@drawable/button_shape_2">
 
-        <Button
-            android:id="@+id/btn_back"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="23dp"
-            android:background="@drawable/ic_back" />
+
 
         <LinearLayout
 

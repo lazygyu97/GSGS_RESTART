@@ -1,5 +1,6 @@
 package com.example.gsgs_plus_final.pickUp
 
+import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.content.DialogInterface
 import android.content.Intent
@@ -20,9 +21,13 @@ import com.example.tmaptest.retrofit.GeoCodingInterface
 import com.example.tmaptest.retrofit.RetrofitClient
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.skt.Tmap.*
+import com.skt.Tmap.TMapGpsManager.GPS_PROVIDER
+import com.skt.Tmap.TMapGpsManager.NETWORK_PROVIDER
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -34,7 +39,7 @@ class BeforePickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChang
     var tmapView: TMapView? = null
     var result: ArrayList<String>? = null
     val poly1 = TMapPolyLine()
-    var tmap: TMapGpsManager? = null
+    private var tmap: TMapGpsManager? = null
 
     private lateinit var auth: FirebaseAuth
     private lateinit var retrofit: Retrofit
@@ -42,6 +47,8 @@ class BeforePickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChang
     private lateinit var km: String
     private lateinit var time: String
     private lateinit var tmaptapi: TMapTapi
+    private lateinit var data:String
+    private lateinit var real_time: ListenerRegistration
 
     // 티맵 설치 설치 권유 다이얼로그
     private fun ask_download() {
@@ -75,10 +82,10 @@ class BeforePickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChang
 
         //실시간 현재위치
         tmap = TMapGpsManager(this)
-        tmap!!.provider = TMapGpsManager.GPS_PROVIDER
         tmap!!.minTime = 1000
         tmap!!.minDistance = 5F
-        tmap!!.provider = TMapGpsManager.GPS_PROVIDER
+        tmap!!.provider = GPS_PROVIDER
+//        tmap!!.provider = NETWORK_PROVIDER
         tmap!!.OpenGps()
 
         val btn_finish = findViewById<Button>(R.id.btn_finish)
@@ -92,11 +99,10 @@ class BeforePickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChang
         val DB = intent.getStringExtra("Data")
         val lat = intent.getStringExtra("MyLocation_lat").toString()
         val lon = intent.getStringExtra("MyLocation_lon").toString()
-        Log.d("sdfsdf", lat)
+
+        data = intent.getStringExtra("Data").toString()
 
         val maps = findViewById<ConstraintLayout>(R.id.TMapView)
-
-
         tmapView = TMapView(this)
         tmapView!!.setSKTMapApiKey("l7xx961891362ed44d06a261997b67e5ace6")
         tmapView!!.setZoom(13f)
@@ -163,6 +169,7 @@ class BeforePickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChang
 
         Log.d("beforepickup", DB.toString())
         val docRef = db.collection("pick_up_request").document(DB.toString())
+        val docRef2 = db.collection("pick_up_request")
 
         docRef.get().addOnSuccessListener { document ->
             if (document != null) {
@@ -280,17 +287,50 @@ class BeforePickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChang
 
         btn_finish.setOnClickListener {
 
-            val intent = Intent(this, DoingPickUpActivity::class.java)
-            intent.putExtra("Data", DB)
-            startActivity(intent)
+            docRef2.document(data.toString()).get().addOnSuccessListener { task ->
+                if (task.data!!.get("uid_2").toString() == auth.currentUser!!.uid) {
+                    docRef2.document(data.toString()).update("ready_flag_1", "1")
+                }
+            }
         }
+
+        //데이터 값의 변동이 있을때 감지해서 실시간으로 기사님 위치 판단
+       real_time= docRef2.document(data).addSnapshotListener { snapshot, e ->
+
+            if (e != null) {
+                Log.w(ContentValues.TAG, "Listen failed.", e)
+                return@addSnapshotListener
+            }
+
+            //변화가 있을때 실행되는 코드
+            if (snapshot != null && snapshot.exists()) {
+                Log.d("change status", "변화 감지.")
+
+                val result = snapshot.data!!.get("ready_flag_2").toString()
+
+                if (result == "1"&& snapshot.data!!.get("doing_x")==null) {
+                    val intent = Intent(this, DoingPickUpActivity::class.java)
+                    intent.putExtra("Data", DB)
+                    startActivity(intent)
+                    finishAndRemoveTask()
+                } else {//변화가 없으면 실행되는 코드
+                    Log.d("change status", "변화없음.")
+
+                }
+
+            } else {
+                Log.d(ContentValues.TAG, "Current data: null")
+            }
+
+        }//addSnapShotListener
+
     }
 
 
     override fun onLocationChange(p0: Location?) {
 
         Log.d("현재위치1", p0!!.latitude.toString())
-        Log.d("현재위치1", p0!!.longitude.toString())
+        Log.d("현재위치1", p0.longitude.toString())
 
         val bitmap3 = BitmapFactory.decodeResource(this.resources, R.drawable.delivery_pin)
         val markerItem3 = TMapMarkerItem()
@@ -307,9 +347,7 @@ class BeforePickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChang
         val docRef = db.collection("pick_up_request")
 
         val t2 = Thread() {
-            val lo = TMapPoint(p0!!.latitude, p0!!.longitude)
-
-            // alTMapPoint.add(lo)
+            val lo= TMapPoint(p0.latitude, p0.longitude)
 
             poly1.addLinePoint(lo)
 
@@ -319,5 +357,24 @@ class BeforePickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChang
             tmapView!!.addTMapPolyLine("Line2", poly1)
 
         }.start()
+
+        docRef.document(data)
+            .update(
+                "picking_x",
+                FieldValue.arrayUnion(p0.latitude)
+            )
+
+        docRef.document(data)
+            .update(
+                "picking_y",
+                FieldValue.arrayUnion(p0.longitude)
+            )
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        tmap!!.CloseGps()
+        Log.d("파국","이다222222")
+        real_time.remove()
     }
 }

@@ -13,6 +13,8 @@ data class PickUpRequest(
         val pick_up_item_request: String,
         val pick_up_item_cost: String,
         val pick_up_check_flag: String,
+        val ready_flag_1: String,
+        val ready_flag_2: String,
         val startX: String?,
         val startY: String?,
         val endX: String?,
