@@ -9,18 +9,23 @@ import android.widget.Button
 import android.widget.TextView
 import com.example.gsgs_plus_final.R
 import com.example.gsgs_plus_final.main.MainActivity
+import com.google.android.gms.maps.model.JointType
+import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 private lateinit var auth: FirebaseAuth
 private lateinit var mDbRef: DatabaseReference
 
+
 class DoingRequestActivity : AppCompatActivity() {
+    private lateinit var real_time: ListenerRegistration
 
     override fun onBackPressed() {
         //super.onBackPressed()
@@ -32,7 +37,6 @@ class DoingRequestActivity : AppCompatActivity() {
 
         val db = Firebase.firestore
         auth = Firebase.auth
-
 
         val name = intent.getStringExtra("result")
         val start = intent.getStringExtra("start")
@@ -54,27 +58,27 @@ class DoingRequestActivity : AppCompatActivity() {
         val docRef = db.collection("pick_up_request")
         val btn_back = findViewById<Button>(R.id.btn_back)
 
-
-        docRef.document(name.toString()).addSnapshotListener { snapshot, e ->
+        real_time= docRef.document(name.toString()).addSnapshotListener { snapshot, e ->
             if (e != null) {
                 Log.w(TAG, "Listen failed.", e)
                 return@addSnapshotListener
             }
-            if (snapshot != null && snapshot.exists()) {
+            if ((snapshot != null) && snapshot.exists()) {
                 val result = snapshot.data!!.get("pick_up_check_flag").toString()
+                Log.d("이거 보이면 ","안됨 11111111111111")
 
-                if (result == "1") {
+
+                if (result == "1"&&snapshot.data!!.get("picking_x")==null) {
                     val intent = Intent(this, SuccessRequestActivity::class.java)
                     intent.putExtra("name",name)
                     intent.putExtra("start",start)
                     intent.putExtra("end",end)
                     intent.putExtra("id",id)
                     startActivity(intent)
-
+                    finishAndRemoveTask()
 
                 } else {
                     Log.d("change fail!!!!!!!!!!!", "슬프다.")
-                    return@addSnapshotListener
                 }
 
             } else {
@@ -89,5 +93,12 @@ class DoingRequestActivity : AppCompatActivity() {
 
 
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("파국","이다")
+        real_time.remove()
+
     }
 }

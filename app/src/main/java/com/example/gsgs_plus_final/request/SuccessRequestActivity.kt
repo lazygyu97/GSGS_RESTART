@@ -22,6 +22,8 @@ class SuccessRequestActivity : AppCompatActivity() {
     private lateinit var mDbRef: DatabaseReference
     private lateinit var auth: FirebaseAuth
 
+
+
     override fun onBackPressed() {
         // super.onBackPressed()
     }
@@ -37,6 +39,7 @@ class SuccessRequestActivity : AppCompatActivity() {
         val db = Firebase.firestore
         auth = Firebase.auth
 
+        var doing = DoingRequestActivity()
         val start = intent.getStringExtra("start")
         val end = intent.getStringExtra("end")
         val time = intent.getStringExtra("name")
@@ -45,12 +48,11 @@ class SuccessRequestActivity : AppCompatActivity() {
         val txt_start = findViewById<TextView>(R.id.start)
         val txt_end = findViewById<TextView>(R.id.end)
         val btn_back = findViewById<Button>(R.id.btn_back)
-
+        val quit=DoingRequestActivity()
         txt_start.setText(start.toString())
         txt_end.setText(end.toString())
         //1이 받은 사람, 2가 피커
         val docRef3 = db.collection("pick_up_request")
-
         val pick_data = docRef3.document(time.toString())
         pick_data.get().addOnSuccessListener { document ->
             if (document != null) {
@@ -72,6 +74,9 @@ class SuccessRequestActivity : AppCompatActivity() {
             Toast.makeText(this, "홈 화면으로 이동합니다!", Toast.LENGTH_LONG).show()
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
+
+
+
 
         }
 
