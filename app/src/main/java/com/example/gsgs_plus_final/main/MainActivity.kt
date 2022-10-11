@@ -3,6 +3,7 @@ package com.example.gsgs_plus_final.main
 import android.content.DialogInterface
 import android.content.Intent
 import android.location.Location
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -131,7 +132,6 @@ class MainActivity : AppCompatActivity(){
 //        tmap!!.provider=GPS_PROVIDER
 //        tmap!!.minTime=1000
 //        tmap!!.OpenGps()
-
         val db = Firebase.firestore
         val docRef = db.collection("users")
 

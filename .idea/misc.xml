@@ -40,6 +40,7 @@
         <entry key="..\:/Users/sog31/AndroidStudioProjects/GSGS_PLUS_FINAL/app/src/main/res/layout/pickup_list_item.xml" value="0.19655797101449277" />
         <entry key="..\:/Users/sog31/AndroidStudioProjects/GSGS_PLUS_FINAL/app/src/main/res/layout/use_list_item.xml" value="0.38645833333333335" />
         <entry key="app/src/main/res/drawable-v24/button_shape.xml" value="0.107" />
+        <entry key="app/src/main/res/drawable-v24/button_shape_1.xml" value="0.1805" />
         <entry key="app/src/main/res/drawable-v24/pick_up.xml" value="0.153" />
         <entry key="app/src/main/res/drawable/ic_search.xml" value="0.1055" />
         <entry key="app/src/main/res/drawable/pickup_list_item.xml" value="0.301" />
@@ -53,6 +54,7 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2740628166160081" />
         <entry key="app/src/main/res/layout/activity_picker_join.xml" value="0.2740628166160081" />
         <entry key="app/src/main/res/layout/activity_success_request.xml" value="0.3378623188405797" />
+        <entry key="app/src/main/res/layout/activity_using_check.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_web_view.xml" value="0.27219202898550726" />
         <entry key="app/src/main/res/layout/dialog_loading.xml" value="0.22163120567375885" />
         <entry key="app/src/main/res/layout/dialog_progress.xml" value="0.12284701114488349" />
@@ -65,7 +67,8 @@
         <entry key="app/src/main/res/layout/fragment_use_list.xml" value="0.2740628166160081" />
         <entry key="app/src/main/res/layout/fragment_use_list1.xml" value="0.21149949341438704" />
         <entry key="app/src/main/res/layout/fragment_user.xml" value="0.29080810546875" />
-        <entry key="app/src/main/res/layout/pickup_list_item.xml" value="0.2141703845159104" />
+        <entry key="app/src/main/res/layout/pickup_list_item.xml" value="0.28391067992606667" />
+        <entry key="app/src/main/res/layout/use_list_item.xml" value="0.16018518518518518" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.153" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.153" />
       </map>

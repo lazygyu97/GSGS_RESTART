@@ -218,8 +218,15 @@ class HomeFragment_1 : Fragment(), TMapGpsManager.onLocationChangedCallback,
         }
 
         tmap = TMapGpsManager(context)
-        tmap!!.provider = GPS_PROVIDER
-//        tmap!!.provider = NETWORK_PROVIDER
+
+        if(Build.DEVICE.substring(0,3)=="emu"){
+            Log.d("----device: ","이것은 에뮬레이터")
+            tmap!!.provider = GPS_PROVIDER
+        }else{
+            Log.d("----device: ","이것은 스마트폰!")
+            tmap!!.provider = NETWORK_PROVIDER
+        }
+
         tmap!!.minTime = 1000
         tmap!!.OpenGps()
 
