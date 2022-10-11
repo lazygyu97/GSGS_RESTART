@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.location.Location
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -18,6 +19,7 @@ import com.example.tmaptest.retrofit.RetrofitClient
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.skt.Tmap.*
@@ -48,6 +50,8 @@ class DoingPickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChange
     private lateinit var km: String
     private lateinit var time: String
     private lateinit var tmaptapi: TMapTapi
+    private lateinit var real_time: ListenerRegistration
+
 
     private var tmap: TMapGpsManager? = null
 
@@ -65,8 +69,15 @@ class DoingPickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChange
         tmap = TMapGpsManager(this)
         tmap!!.minTime = 1000
         tmap!!.minDistance = 5F
-        tmap!!.provider = GPS_PROVIDER
-//        tmap!!.provider = NETWORK_PROVIDER
+
+        if(Build.DEVICE.substring(0,3)=="emu"){
+            Log.d("----device: ","이것은 에뮬레이터")
+            tmap!!.provider = GPS_PROVIDER
+        }else{
+            Log.d("----device: ","이것은 스마트폰!")
+            tmap!!.provider = NETWORK_PROVIDER
+        }
+
         tmap!!.OpenGps()
 
         val btn_finish = findViewById<Button>(R.id.btn_finish)
@@ -258,6 +269,7 @@ class DoingPickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChange
             val intent = Intent(this, FinishPickUpActivity::class.java)
             startActivity(intent)
         }
+
     }
 
     //실시간 위치변화 감지

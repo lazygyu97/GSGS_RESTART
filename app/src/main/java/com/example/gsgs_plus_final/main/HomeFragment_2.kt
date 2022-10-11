@@ -7,6 +7,7 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.location.Location
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -99,8 +100,13 @@ class HomeFragment_2 : Fragment(), TMapGpsManager.onLocationChangedCallback {
         maps.addView(tmapView)
 
         tmap = TMapGpsManager(context)
-        tmap!!.provider = GPS_PROVIDER
-//        tmap!!.provider = NETWORK_PROVIDER
+        if(Build.DEVICE.substring(0,3)=="emu"){
+            Log.d("----device: ","이것은 에뮬레이터")
+            tmap!!.provider = GPS_PROVIDER
+        }else{
+            Log.d("----device: ","이것은 스마트폰!")
+            tmap!!.provider = NETWORK_PROVIDER
+        }
         tmap!!.minTime = 1000
         tmap!!.OpenGps()
 

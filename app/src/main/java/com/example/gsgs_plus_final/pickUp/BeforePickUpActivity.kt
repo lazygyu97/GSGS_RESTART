@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.location.Location
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -84,8 +85,15 @@ class BeforePickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChang
         tmap = TMapGpsManager(this)
         tmap!!.minTime = 1000
         tmap!!.minDistance = 5F
-        tmap!!.provider = GPS_PROVIDER
-//        tmap!!.provider = NETWORK_PROVIDER
+
+        if(Build.DEVICE.substring(0,3)=="emu"){
+            Log.d("----device: ","이것은 에뮬레이터")
+            tmap!!.provider = GPS_PROVIDER
+        }else{
+            Log.d("----device: ","이것은 스마트폰!")
+            tmap!!.provider = NETWORK_PROVIDER
+        }
+
         tmap!!.OpenGps()
 
         val btn_finish = findViewById<Button>(R.id.btn_finish)
@@ -374,7 +382,7 @@ class BeforePickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChang
     override fun onDestroy() {
         super.onDestroy()
         tmap!!.CloseGps()
-        Log.d("파국","이다222222")
+        Log.d("BEFORE_PICKUP","스냅샷리스너 1 종료")
         real_time.remove()
     }
 }
