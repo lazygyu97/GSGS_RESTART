@@ -86,6 +86,8 @@ class BeforePickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChang
         tmap!!.minTime = 1000
         tmap!!.minDistance = 5F
 
+
+
         if(Build.DEVICE.substring(0,3)=="emu"){
             Log.d("----device: ","이것은 에뮬레이터")
             tmap!!.provider = GPS_PROVIDER
@@ -103,12 +105,26 @@ class BeforePickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChang
         val time_txt = findViewById<TextView>(R.id.time)
         val km_txt = findViewById<TextView>(R.id.km)
         val go_tmap = findViewById<Button>(R.id.go_tmap)
+        var lat : String
+        var lon : String
+
+        var intent2 = intent.getStringExtra("data")
 
         val DB = intent.getStringExtra("Data")
-        val lat = intent.getStringExtra("MyLocation_lat").toString()
-        val lon = intent.getStringExtra("MyLocation_lon").toString()
 
-        data = intent.getStringExtra("Data").toString()
+
+        if(intent2!=null){
+            data = intent.getStringExtra("data").toString()
+            lat =  intent.getStringExtra("MyLocation_lat2").toString()
+            lon =  intent.getStringExtra("MyLocation_lon2").toString()
+            Log.d("Before에서 넘어온 Data",data)
+        }else{
+            data = intent.getStringExtra("Data").toString()
+            lat = intent.getStringExtra("MyLocation_lat").toString()
+            lon = intent.getStringExtra("MyLocation_lon").toString()
+            Log.d("Before에서 넘어온 Data2",data)
+        }
+
 
         val maps = findViewById<ConstraintLayout>(R.id.TMapView)
         tmapView = TMapView(this)
@@ -175,12 +191,12 @@ class BeforePickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChang
                 })
         }
 
-        Log.d("beforepickup", DB.toString())
-        val docRef = db.collection("pick_up_request").document(DB.toString())
+        Log.d("beforepickup", data.toString())
+        val docRef = db.collection("pick_up_request").document(data)
         val docRef2 = db.collection("pick_up_request")
 
         docRef.get().addOnSuccessListener { document ->
-            if (document != null) {
+            if (document.exists()) {
                 Log.d(TAG, "DocumentSnapshot data: ${document.data}")
                 val split = document.data?.get("pick_up_item_addr_start").toString().split("!")
 
@@ -191,6 +207,8 @@ class BeforePickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChang
                 //예상 경로 찍어주기
                 val start_x = document.data?.get("startX").toString()
                 val start_y = document.data?.get("startY").toString()
+                Log.d("아니?",lat)
+                Log.d("아니?",lon)
                 getRoutes(
                     supplementService,
                     lon.toDouble(),
@@ -303,7 +321,7 @@ class BeforePickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChang
         }
 
         //데이터 값의 변동이 있을때 감지해서 실시간으로 기사님 위치 판단
-       real_time= docRef2.document(data).addSnapshotListener { snapshot, e ->
+        real_time= docRef2.document(data).addSnapshotListener { snapshot, e ->
 
             if (e != null) {
                 Log.w(ContentValues.TAG, "Listen failed.", e)
