@@ -27,6 +27,9 @@
             android:name=".using.UsingCheckActivity"
             android:exported="false" />
         <activity
+            android:name=".using.UsingCheckActivity_2"
+            android:exported="false" />
+        <activity
             android:name=".request.FailRequestActivity"
             android:exported="false" />
         <activity

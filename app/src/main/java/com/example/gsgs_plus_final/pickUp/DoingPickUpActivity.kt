@@ -34,7 +34,7 @@ import retrofit2.Retrofit
 class DoingPickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChangedCallback {
 
     var tmapView: TMapView? = null
-    val poly1= TMapPolyLine()
+    val poly1 = TMapPolyLine()
 
     private lateinit var auth: FirebaseAuth
     private lateinit var startX: String
@@ -43,7 +43,7 @@ class DoingPickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChange
     private lateinit var endY: String
     private lateinit var addr_end: String
     private lateinit var rs: String
-    private lateinit var data:String
+    private lateinit var data: String
 
     private lateinit var retrofit: Retrofit
     private lateinit var supplementService: GeoCodingInterface
@@ -70,14 +70,24 @@ class DoingPickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChange
         tmap!!.minTime = 1000
         tmap!!.minDistance = 5F
 
-        if(Build.DEVICE.substring(0,3)=="emu"){
-            Log.d("----device: ","이것은 에뮬레이터")
+        if (Build.DEVICE.substring(0, 3) == "emu") {
+            Log.d("----device: ", "이것은 에뮬레이터")
             tmap!!.provider = GPS_PROVIDER
-        }else{
-            Log.d("----device: ","이것은 스마트폰!")
+        } else {
+            Log.d("----device: ", "이것은 스마트폰!")
             tmap!!.provider = NETWORK_PROVIDER
         }
 
+
+        var intent2 = intent.getStringExtra("data")
+
+        if (intent2 != null) {
+            data = intent.getStringExtra("data").toString()
+            Log.d("Before에서 넘어온 Data", data)
+        } else {
+            data = intent.getStringExtra("Data").toString()
+            Log.d("Before에서 넘어온 Data2", data)
+        }
         tmap!!.OpenGps()
 
         val btn_finish = findViewById<Button>(R.id.btn_finish)
@@ -111,7 +121,7 @@ class DoingPickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChange
             service: GeoCodingInterface, endX: Double,
             endY: Double, startX: Double,
             startY: Double, appKey: String,
-            totalValue: Int
+            totalValue: Int,
         ) {
             service.getRoutes(
                 endX,
@@ -125,14 +135,14 @@ class DoingPickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChange
 
                     override fun onFailure(
                         call: Call<routes>,
-                        error: Throwable
+                        error: Throwable,
                     ) {
                         Log.d("TAG", "실패 원인: {$error}")
                     }
 
                     override fun onResponse(
                         call: Call<routes>,
-                        response: Response<routes>
+                        response: Response<routes>,
                     ) {
                         Log.d("TAG", "성공")
                         Log.d(
@@ -172,9 +182,10 @@ class DoingPickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChange
                 addr_end = document.data?.get("pick_up_item_addr_end").toString()
                 rs = document.data?.get("pick_up_item_request").toString()
 
-                val split = addr_end.split("!")
-                pick_addr1.setText(split[0])
-                pick_addr2.setText(split[1])
+                val split1 = addr_end.split("!")
+                Log.d("에오크...",split1.toString())
+                pick_addr1.setText(split1[0])
+                pick_addr2.setText(split1[1])
                 request.setText(rs)
 
                 //예상경로 찍어주기
@@ -223,10 +234,10 @@ class DoingPickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChange
                         val poly: TMapPolyLine = TMapData().findPathData(pointS, pointE)
 
                         poly.lineColor = Color.LTGRAY
-                        poly.outLineColor=Color.DKGRAY
-                        poly.lineAlpha=100
-                        poly.outLineAlpha=100
-                        poly.outLineWidth=20f
+                        poly.outLineColor = Color.DKGRAY
+                        poly.lineAlpha = 100
+                        poly.outLineAlpha = 100
+                        poly.outLineWidth = 20f
                         poly.lineWidth = 10f
 
 
@@ -262,13 +273,40 @@ class DoingPickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChange
 
             docRef.document(data.toString()).get().addOnSuccessListener { task ->
                 if (task.data!!.get("uid_2").toString() == auth.currentUser!!.uid) {
-                    docRef.document(data.toString()).update("pick_up_check_flag", "3")
+                    docRef.document(data.toString()).update("ready_flag_2", "1")
                 }
             }
 
-            val intent = Intent(this, FinishPickUpActivity::class.java)
-            startActivity(intent)
         }
+        //데이터 값의 변동이 있을때 감지해서 실시간으로 기사님 위치 판단
+        real_time = docRef.document(data).addSnapshotListener { snapshot, e ->
+
+            if (e != null) {
+                Log.w(ContentValues.TAG, "Listen failed.", e)
+                return@addSnapshotListener
+            }
+
+            //변화가 있을때 실행되는 코드
+            if (snapshot != null && snapshot.exists()) {
+                Log.d("change status", "변화 감지.")
+
+                val result = snapshot.data!!.get("pick_up_check_flag").toString()
+
+                if (result == "3") {
+                    val intent = Intent(this, FinishPickUpActivity::class.java)
+                    startActivity(intent)
+
+                } else {//변화가 없으면 실행되는 코드
+                    Log.d("change status", "변화없음.")
+
+                }
+
+            } else {
+                Log.d(ContentValues.TAG, "Current data: null")
+            }
+
+        }//addSnapShotListener
+
 
     }
 
@@ -290,18 +328,6 @@ class DoingPickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChange
         // db에 패스데이터 넘기기
         val db = Firebase.firestore
         val docRef = db.collection("pick_up_request")
-
-        val t2 = Thread() {
-           val lo= TMapPoint(p0.latitude, p0.longitude)
-
-            poly1.addLinePoint(lo)
-
-            poly1.outLineColor = Color.BLUE
-            poly1.outLineWidth = 20f
-
-            tmapView!!.addTMapPolyLine("Line2", poly1)
-
-        }.start()
 
         docRef.document(data)
             .update(
