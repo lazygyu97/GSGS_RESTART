@@ -251,9 +251,9 @@ class UsingCheckActivity : AppCompatActivity() {
                         Log.d("실시간 위치 탐색 y", lon_result.javaClass.name)
                     }
                 }
-                Log.d("실시간 위치 탐색 y", lon_result.toString())
-                Log.d("실시간 위치 탐색 y", lat_result.get(lat_result.lastIndex).javaClass.name)
-                Log.d("실시간 위치 탐색 y", lat_result.get(lat_result.lastIndex).toString())
+//                Log.d("실시간 위치 탐색 y", lon_result.toString())
+//                Log.d("실시간 위치 탐색 y", lat_result.get(lat_result.lastIndex).javaClass.name)
+//                Log.d("실시간 위치 탐색 y", lat_result.get(lat_result.lastIndex).toString())
 
                 //배달자 마커 찍어주기
                 val bitmap3 = BitmapFactory.decodeResource(this.resources, R.drawable.delivery_pin)

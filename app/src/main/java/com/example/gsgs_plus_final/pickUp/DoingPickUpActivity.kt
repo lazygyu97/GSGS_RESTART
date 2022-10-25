@@ -102,7 +102,7 @@ class DoingPickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChange
         val pick_addr2 = findViewById<TextView>(R.id.addr2)
         val request = findViewById<TextView>(R.id.re)
 
-        data = intent.getStringExtra("Data").toString()
+
 
 
         //지도 띄어주기

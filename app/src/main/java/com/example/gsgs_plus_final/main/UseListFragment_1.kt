@@ -102,7 +102,7 @@ class UseListFragment_1 : Fragment() {
 
             if (task.data!!.get("doing_flag") == "0") {
 
-                Log.d("잘왔어요~0", "잘왔네요~0")
+
                 docRef.whereEqualTo("pick_up_check_flag", "0").get()
                     .addOnSuccessListener { documents ->
                         for (document in documents) {
@@ -140,6 +140,7 @@ class UseListFragment_1 : Fragment() {
                                 }//apply
                             } //if
                         }//for
+                        Log.d("잘왔어요~0", "잘왔네요~0")
                         val adapter = UseListAdapter(pickList)
                         list.adapter = adapter
 
@@ -150,8 +151,10 @@ class UseListFragment_1 : Fragment() {
                                 startActivity(intent)
                             }
                         })
+                    }.addOnFailureListener { exception ->
+                        Log.d("오류다 오류~0",exception.toString())
                     }
-                Log.d("잘왔어요~1", "잘왔네요~1")
+
 
                 docRef.whereEqualTo("pick_up_check_flag", "1").get()
                     .addOnSuccessListener { documents ->
@@ -189,7 +192,7 @@ class UseListFragment_1 : Fragment() {
                                 }//apply
                             } //if
                         }//for
-                        Log.d("잘왔어요~2", "잘왔네요~2")
+                        Log.d("잘왔어요~1", "잘왔네요~1")
                         val adapter = UseListAdapter(pickList)
                         list.adapter = adapter
                         adapter.setOnItemClickListener(object : UseListAdapter.OnItemClickListener {
@@ -199,6 +202,8 @@ class UseListFragment_1 : Fragment() {
                                 startActivity(intent)
                             }
                         })
+                    }.addOnFailureListener { exception ->
+                        Log.d("오류다 오류~1",exception.toString())
                     }
                 docRef.whereEqualTo("pick_up_check_flag", "2").get()
                     .addOnSuccessListener { documents ->
@@ -236,7 +241,7 @@ class UseListFragment_1 : Fragment() {
                                 }//apply
                             } //if
                         }//for
-                        Log.d("잘왔어요~2", "잘왔네요~2")
+                        Log.d("잘왔어요~3", "잘왔네요~3")
                         val adapter = UseListAdapter(pickList)
                         list.adapter = adapter
                         adapter.setOnItemClickListener(object : UseListAdapter.OnItemClickListener {
@@ -246,6 +251,8 @@ class UseListFragment_1 : Fragment() {
                                 startActivity(intent)
                             }
                         })
+                    }.addOnFailureListener { exception ->
+                        Log.d("오류다 오류~2",exception.toString())
                     }
 
             } else {
@@ -287,6 +294,7 @@ class UseListFragment_1 : Fragment() {
                             }
 
                         }
+                        Log.d("잘왔어요~4", "잘왔네요~4")
                         val adapter = UseListAdapter(pickList)
                         list.adapter = adapter
 
@@ -309,6 +317,8 @@ class UseListFragment_1 : Fragment() {
 
 
                         })
+                    }.addOnFailureListener { exception ->
+                        Log.d("오류다 오류~3",exception.toString())
                     }
 
                 docRef.whereEqualTo("pick_up_check_flag", "2").get()
@@ -348,6 +358,7 @@ class UseListFragment_1 : Fragment() {
                             }
 
                         }
+                        Log.d("잘왔어요~5", "잘왔네요~5")
                         val adapter = UseListAdapter(pickList)
                         list.adapter = adapter
 
@@ -365,6 +376,8 @@ class UseListFragment_1 : Fragment() {
 
 
                         })
+                    }.addOnFailureListener { exception ->
+                        Log.d("오류다 오류~4",exception.toString())
                     }
 
             }
@@ -404,6 +417,7 @@ class UseListFragment_1 : Fragment() {
     override fun onDetach() {
         super.onDetach()
         tmap!!.CloseGps()
+        timer.cancel()
     }
 
 

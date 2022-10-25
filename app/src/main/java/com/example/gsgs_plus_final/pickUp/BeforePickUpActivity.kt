@@ -318,6 +318,18 @@ class BeforePickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChang
 
         btn_finish.setOnClickListener {
 
+            docRef.document(data)
+                .update(
+                    "doing_x",
+                    FieldValue.arrayUnion(tmap!!.location.latitude)
+                )
+
+            docRef.document(data)
+                .update(
+                    "doing_y",
+                    FieldValue.arrayUnion(tmap!!.location.longitude)
+                )
+
             docRef.document(data.toString()).get().addOnSuccessListener { task ->
                 if (task.data!!.get("uid_2").toString() == auth.currentUser!!.uid) {
                     docRef.document(data.toString()).update("ready_flag_1", "1")
@@ -337,9 +349,11 @@ class BeforePickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChang
             if (snapshot != null && snapshot.exists()) {
                 Log.d("change status", "변화 감지.")
 
-                val result = snapshot.data!!.get("pick_up_check_flag").toString()
+//                var array_doing_x : ArrayList<Double> = snapshot.data!!.get("doing_x") as ArrayList<Double>
 
-                if (result == "2"&& snapshot.data!!.get("doing_x")==null) {
+                val result = snapshot.data!!.get("pick_up_check_flag").toString()
+//
+                if (result == "2") {
                     val intent = Intent(this, DoingPickUpActivity::class.java)
                     intent.putExtra("Data", DB)
                     startActivity(intent)

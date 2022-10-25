@@ -17,6 +17,7 @@ class FinishPickUpActivity : AppCompatActivity() {
         btn_finish.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
+            finish()
         }
     }
 }

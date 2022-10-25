@@ -241,51 +241,59 @@ class UsingCheckActivity_2 : AppCompatActivity() {
                 Log.d("change status", "변화 감지.")
 
                 val result = snapshot.data!!.get("ready_flag_2").toString()
+                val flag = snapshot.data!!.get("pick_up_check_flag").toString()
 
-                //x,y 값 업데이트 되는지 확인하기
-                val lat_result: ArrayList<Double> =
-                    snapshot.data!!.get("doing_x") as ArrayList<Double>
-                val lon_result: ArrayList<Double> =
-                    snapshot.data!!.get("doing_y") as ArrayList<Double>
+                if(flag=="1"){
+                    finish()
+                    Log.d("아직오면 안대!!!","안대!!")
 
-                if (lat_result != null) {
-                    Log.d("실시간 위치 탐색 x", lat_result.javaClass.name)
-                    if (lon_result != null) {
-                        Log.d("실시간 위치 탐색 y", lon_result.javaClass.name)
+                }else{
+                    //x,y 값 업데이트 되는지 확인하기
+                    val lat_result: ArrayList<Double> =
+                        snapshot.data!!.get("doing_x") as ArrayList<Double>
+                    val lon_result: ArrayList<Double> =
+                        snapshot.data!!.get("doing_y") as ArrayList<Double>
+
+                    if (lat_result != null) {
+                        Log.d("실시간 위치 탐색 x", lat_result.javaClass.name)
+                        if (lon_result != null) {
+                            Log.d("실시간 위치 탐색 y", lon_result.javaClass.name)
+                        }
                     }
-                }
-                Log.d("실시간 위치 탐색 y", lon_result.toString())
-                Log.d("실시간 위치 탐색 y", lat_result.get(lat_result.lastIndex).javaClass.name)
-                Log.d("실시간 위치 탐색 y", lat_result.get(lat_result.lastIndex).toString())
+//                Log.d("실시간 위치 탐색 y", lon_result.toString())
+//                Log.d("실시간 위치 탐색 y", lat_result.get(lat_result.lastIndex).javaClass.name)
+//                Log.d("실시간 위치 탐색 y", lat_result.get(lat_result.lastIndex).toString())
 
-                //배달자 마커 찍어주기
-                val bitmap3 = BitmapFactory.decodeResource(this.resources, R.drawable.delivery_pin)
-                val markerItem3 = TMapMarkerItem()
-                markerItem3.icon = bitmap3 // 마커 아이콘 지정
-                markerItem3.setPosition(0.5f, 1.0f) // 마커의 중심점을 중앙, 하단으로 설정
-                markerItem3.tMapPoint = TMapPoint(
-                    lat_result.get(lat_result.lastIndex),
-                    lon_result.get(lon_result.lastIndex)
-                )
-                // 마커의 좌표 지정
+                    //배달자 마커 찍어주기
+                    val bitmap3 = BitmapFactory.decodeResource(this.resources, R.drawable.delivery_pin)
+                    val markerItem3 = TMapMarkerItem()
+                    markerItem3.icon = bitmap3 // 마커 아이콘 지정
+                    markerItem3.setPosition(0.5f, 1.0f) // 마커의 중심점을 중앙, 하단으로 설정
+                    markerItem3.tMapPoint = TMapPoint(
+                        lat_result.get(lat_result.lastIndex),
+                        lon_result.get(lon_result.lastIndex)
+                    )
+                    // 마커의 좌표 지정
 
-                tmapView!!.addMarkerItem(
-                    "markerItem3",
-                    markerItem3
-                ) // 지도에 마커 추가
+                    tmapView!!.addMarkerItem(
+                        "markerItem3",
+                        markerItem3
+                    ) // 지도에 마커 추가
 
 
 //                tmapView!!.setCenterPoint(
 //                    markerItem3.latitude,
 //                    markerItem3.longitude
 //                )
-                if (result == "1") {
+                    if (result == "1") {
 
-                    finish_button.visibility = View.VISIBLE
-                } else {//변화가 없으면 실행되는 코드
-                    Log.d("change status", "변화없음.")
-                    return@addSnapshotListener
+                        finish_button.visibility = View.VISIBLE
+                    } else {//변화가 없으면 실행되는 코드
+                        Log.d("change status", "변화없음.")
+                        return@addSnapshotListener
+                    }
                 }
+
 
             } else {
                 Log.d(ContentValues.TAG, "Current data: null")
