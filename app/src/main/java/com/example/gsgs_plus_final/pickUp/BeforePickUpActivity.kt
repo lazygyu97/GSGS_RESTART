@@ -39,7 +39,6 @@ class BeforePickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChang
 
     var tmapView: TMapView? = null
     var result: ArrayList<String>? = null
-    val poly1 = TMapPolyLine()
     private var tmap: TMapGpsManager? = null
 
     private lateinit var auth: FirebaseAuth
@@ -50,6 +49,7 @@ class BeforePickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChang
     private lateinit var tmaptapi: TMapTapi
     private lateinit var data:String
     private lateinit var real_time: ListenerRegistration
+
 
     // 티맵 설치 설치 권유 다이얼로그
     private fun ask_download() {
@@ -108,6 +108,9 @@ class BeforePickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChang
         var lat : String
         var lon : String
 
+        val docRef = db.collection("pick_up_request")
+
+
         var intent2 = intent.getStringExtra("data")
 
         val DB = intent.getStringExtra("Data")
@@ -117,11 +120,14 @@ class BeforePickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChang
             data = intent.getStringExtra("data").toString()
             lat =  intent.getStringExtra("MyLocation_lat2").toString()
             lon =  intent.getStringExtra("MyLocation_lon2").toString()
+
+
             Log.d("Before에서 넘어온 Data",data)
         }else{
             data = intent.getStringExtra("Data").toString()
             lat = intent.getStringExtra("MyLocation_lat").toString()
             lon = intent.getStringExtra("MyLocation_lon").toString()
+
             Log.d("Before에서 넘어온 Data2",data)
         }
 
@@ -192,10 +198,9 @@ class BeforePickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChang
         }
 
         Log.d("beforepickup", data.toString())
-        val docRef = db.collection("pick_up_request").document(data)
-        val docRef2 = db.collection("pick_up_request")
 
-        docRef.get().addOnSuccessListener { document ->
+
+        docRef.document(data).get().addOnSuccessListener { document ->
             if (document.exists()) {
                 Log.d(TAG, "DocumentSnapshot data: ${document.data}")
                 val split = document.data?.get("pick_up_item_addr_start").toString().split("!")
@@ -207,8 +212,7 @@ class BeforePickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChang
                 //예상 경로 찍어주기
                 val start_x = document.data?.get("startX").toString()
                 val start_y = document.data?.get("startY").toString()
-                Log.d("아니?",lat)
-                Log.d("아니?",lon)
+
                 getRoutes(
                     supplementService,
                     lon.toDouble(),
@@ -279,6 +283,7 @@ class BeforePickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChang
 
                 }.start()
 
+
             } else {
 
             }
@@ -297,7 +302,7 @@ class BeforePickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChang
                 Log.d("tmap 설치 URL", result.toString())
                 ask_download()
             } else {
-                docRef.get().addOnSuccessListener { document ->
+                docRef.document(data).get().addOnSuccessListener { document ->
                     if (document != null) {
                         val start_x = document.data?.get("startX").toString()
                         val start_y = document.data?.get("startY").toString()
@@ -313,15 +318,27 @@ class BeforePickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChang
 
         btn_finish.setOnClickListener {
 
-            docRef2.document(data.toString()).get().addOnSuccessListener { task ->
+            docRef.document(data)
+                .update(
+                    "doing_x",
+                    FieldValue.arrayUnion(tmap!!.location.latitude)
+                )
+
+            docRef.document(data)
+                .update(
+                    "doing_y",
+                    FieldValue.arrayUnion(tmap!!.location.longitude)
+                )
+
+            docRef.document(data.toString()).get().addOnSuccessListener { task ->
                 if (task.data!!.get("uid_2").toString() == auth.currentUser!!.uid) {
-                    docRef2.document(data.toString()).update("ready_flag_1", "1")
+                    docRef.document(data.toString()).update("ready_flag_1", "1")
                 }
             }
         }
 
         //데이터 값의 변동이 있을때 감지해서 실시간으로 기사님 위치 판단
-        real_time= docRef2.document(data).addSnapshotListener { snapshot, e ->
+        real_time= docRef.document(data).addSnapshotListener { snapshot, e ->
 
             if (e != null) {
                 Log.w(ContentValues.TAG, "Listen failed.", e)
@@ -332,9 +349,11 @@ class BeforePickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChang
             if (snapshot != null && snapshot.exists()) {
                 Log.d("change status", "변화 감지.")
 
-                val result = snapshot.data!!.get("ready_flag_2").toString()
+//                var array_doing_x : ArrayList<Double> = snapshot.data!!.get("doing_x") as ArrayList<Double>
 
-                if (result == "1"&& snapshot.data!!.get("doing_x")==null) {
+                val result = snapshot.data!!.get("pick_up_check_flag").toString()
+//
+                if (result == "2") {
                     val intent = Intent(this, DoingPickUpActivity::class.java)
                     intent.putExtra("Data", DB)
                     startActivity(intent)
@@ -372,17 +391,7 @@ class BeforePickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChang
         val db = Firebase.firestore
         val docRef = db.collection("pick_up_request")
 
-        val t2 = Thread() {
-            val lo= TMapPoint(p0.latitude, p0.longitude)
 
-            poly1.addLinePoint(lo)
-
-            poly1.outLineColor = Color.BLUE
-            poly1.outLineWidth = 20f
-
-            tmapView!!.addTMapPolyLine("Line2", poly1)
-
-        }.start()
 
         docRef.document(data)
             .update(
@@ -395,6 +404,8 @@ class BeforePickUpActivity : AppCompatActivity(), TMapGpsManager.onLocationChang
                 "picking_y",
                 FieldValue.arrayUnion(p0.longitude)
             )
+
+
     }
 
     override fun onDestroy() {

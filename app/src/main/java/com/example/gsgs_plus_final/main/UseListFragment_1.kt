@@ -15,7 +15,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.gsgs_plus_final.R
 import com.example.gsgs_plus_final.adapter.UseListAdapter
 import com.example.gsgs_plus_final.pickUp.BeforePickUpActivity
+import com.example.gsgs_plus_final.pickUp.DoingPickUpActivity
 import com.example.gsgs_plus_final.using.UsingCheckActivity
+import com.example.gsgs_plus_final.using.UsingCheckActivity_2
 import com.example.gsgs_plus_final.vo.LoadingDialog
 import com.example.gsgs_plus_final.vo.pick_list
 import com.example.gsgs_plus_final.vo.pick_list2
@@ -54,7 +56,7 @@ class UseListFragment_1 : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
 
         retrofit = RetrofitClient.getInstance() // retrofit 초기화
@@ -67,11 +69,11 @@ class UseListFragment_1 : Fragment() {
         tmapView!!.setSKTMapApiKey("l7xx961891362ed44d06a261997b67e5ace6")
 
         tmap = TMapGpsManager(context)
-        if(Build.DEVICE.substring(0,3)=="emu"){
-            Log.d("----device: ","이것은 에뮬레이터")
+        if (Build.DEVICE.substring(0, 3) == "emu") {
+            Log.d("----device: ", "이것은 에뮬레이터")
             tmap!!.provider = TMapGpsManager.GPS_PROVIDER
-        }else{
-            Log.d("----device: ","이것은 스마트폰!")
+        } else {
+            Log.d("----device: ", "이것은 스마트폰!")
             tmap!!.provider = TMapGpsManager.NETWORK_PROVIDER
         }
         tmap!!.minTime = 1000
@@ -100,7 +102,7 @@ class UseListFragment_1 : Fragment() {
 
             if (task.data!!.get("doing_flag") == "0") {
 
-                Log.d("잘왔어요~0", "잘왔네요~0")
+
                 docRef.whereEqualTo("pick_up_check_flag", "0").get()
                     .addOnSuccessListener { documents ->
                         for (document in documents) {
@@ -138,6 +140,7 @@ class UseListFragment_1 : Fragment() {
                                 }//apply
                             } //if
                         }//for
+                        Log.d("잘왔어요~0", "잘왔네요~0")
                         val adapter = UseListAdapter(pickList)
                         list.adapter = adapter
 
@@ -148,8 +151,10 @@ class UseListFragment_1 : Fragment() {
                                 startActivity(intent)
                             }
                         })
+                    }.addOnFailureListener { exception ->
+                        Log.d("오류다 오류~0",exception.toString())
                     }
-                Log.d("잘왔어요~1", "잘왔네요~1")
+
 
                 docRef.whereEqualTo("pick_up_check_flag", "1").get()
                     .addOnSuccessListener { documents ->
@@ -187,15 +192,67 @@ class UseListFragment_1 : Fragment() {
                                 }//apply
                             } //if
                         }//for
-                        Log.d("잘왔어요~2", "잘왔네요~2")
+                        Log.d("잘왔어요~1", "잘왔네요~1")
                         val adapter = UseListAdapter(pickList)
                         list.adapter = adapter
                         adapter.setOnItemClickListener(object : UseListAdapter.OnItemClickListener {
                             override fun onItemClick(data: pick_list2, pos: Int) {
                                 val intent = Intent(context, UsingCheckActivity::class.java)
                                 intent.putExtra("data", data.document_id)
-                                startActivity(intent)                            }
+                                startActivity(intent)
+                            }
                         })
+                    }.addOnFailureListener { exception ->
+                        Log.d("오류다 오류~1",exception.toString())
+                    }
+                docRef.whereEqualTo("pick_up_check_flag", "2").get()
+                    .addOnSuccessListener { documents ->
+                        for (document in documents) {
+
+                            if (document.data.get("uid") == auth.currentUser!!.uid) {
+                                val start_addr: String =
+                                    document.data["pick_up_item_addr_start"].toString()
+                                val end_addr: String =
+                                    document.data["pick_up_item_addr_end"].toString()
+
+//                                        val start = start_addr.substring(8, 14)
+//                                        val end = end_addr.substring(8, 14)
+
+                                val request_cost: String =
+                                    document.data["pick_up_item_cost"].toString()
+                                val document_id: String = document.id
+                                val pick_up_flag: String =
+                                    document.data["pick_up_check_flag"].toString()
+                                val item_name: String =
+                                    document.data["pick_up_item_name"].toString()
+                                pickList.apply {
+
+                                    add(
+                                        pick_list2(
+                                            item_name,
+                                            start_addr,
+                                            end_addr,
+                                            request_cost,
+                                            document_id,
+                                            pick_up_flag
+                                        )
+                                    )
+
+                                }//apply
+                            } //if
+                        }//for
+                        Log.d("잘왔어요~3", "잘왔네요~3")
+                        val adapter = UseListAdapter(pickList)
+                        list.adapter = adapter
+                        adapter.setOnItemClickListener(object : UseListAdapter.OnItemClickListener {
+                            override fun onItemClick(data: pick_list2, pos: Int) {
+                                val intent = Intent(context, UsingCheckActivity_2::class.java)
+                                intent.putExtra("data", data.document_id)
+                                startActivity(intent)
+                            }
+                        })
+                    }.addOnFailureListener { exception ->
+                        Log.d("오류다 오류~2",exception.toString())
                     }
 
             } else {
@@ -237,6 +294,7 @@ class UseListFragment_1 : Fragment() {
                             }
 
                         }
+                        Log.d("잘왔어요~4", "잘왔네요~4")
                         val adapter = UseListAdapter(pickList)
                         list.adapter = adapter
 
@@ -258,9 +316,68 @@ class UseListFragment_1 : Fragment() {
                             }
 
 
+                        })
+                    }.addOnFailureListener { exception ->
+                        Log.d("오류다 오류~3",exception.toString())
+                    }
+
+                docRef.whereEqualTo("pick_up_check_flag", "2").get()
+                    .addOnSuccessListener { documents ->
+                        for (document in documents) {
+
+                            if (document.data.get("uid_2") == auth.currentUser!!.uid) {
+                                val start_addr: String =
+                                    document.data["pick_up_item_addr_start"].toString()
+                                val end_addr: String =
+                                    document.data["pick_up_item_addr_end"].toString()
+
+//                                val start = start_addr.substring(8, 14)
+//                                val end = end_addr.substring(8, 14)
+
+                                val request_cost: String =
+                                    document.data["pick_up_item_cost"].toString()
+                                val document_id: String = document.id
+                                val pick_up_flag: String =
+                                    document.data["pick_up_check_flag"].toString()
+                                val item_name: String =
+                                    document.data["pick_up_item_name"].toString()
+                                pickList.apply {
+
+                                    add(
+                                        pick_list2(
+                                            item_name,
+                                            start_addr,
+                                            end_addr,
+                                            request_cost,
+                                            document_id,
+                                            pick_up_flag
+                                        )
+                                    )
+
+                                }
+                            }
+
+                        }
+                        Log.d("잘왔어요~5", "잘왔네요~5")
+                        val adapter = UseListAdapter(pickList)
+                        list.adapter = adapter
+
+                        adapter.setOnItemClickListener(object : UseListAdapter.OnItemClickListener {
+                            override fun onItemClick(data: pick_list2, pos: Int) {
+
+
+                                val intent =
+                                    Intent(context, DoingPickUpActivity::class.java)
+                                intent.putExtra("data", data.document_id)
+
+
+                                startActivity(intent)
+                            }
 
 
                         })
+                    }.addOnFailureListener { exception ->
+                        Log.d("오류다 오류~4",exception.toString())
                     }
 
             }
@@ -300,6 +417,7 @@ class UseListFragment_1 : Fragment() {
     override fun onDetach() {
         super.onDetach()
         tmap!!.CloseGps()
+        timer.cancel()
     }
 
 

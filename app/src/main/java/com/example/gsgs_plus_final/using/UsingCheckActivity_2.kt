@@ -29,7 +29,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 
-class UsingCheckActivity : AppCompatActivity() {
+class UsingCheckActivity_2 : AppCompatActivity() {
 
     var tmapView: TMapView? = null
     val poly1 = TMapPolyLine()
@@ -44,7 +44,7 @@ class UsingCheckActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_using_check)
+        setContentView(R.layout.activity_using_check_2)
 
         //retrofit 초기화
         retrofit = RetrofitClient.getInstance()
@@ -135,12 +135,15 @@ class UsingCheckActivity : AppCompatActivity() {
         val data = intent.getStringExtra("data")
         docRef.document(data.toString()).get().addOnSuccessListener { document ->
             if (document != null) {
-                val split = document.data?.get("pick_up_item_addr_start").toString().split("!")
+                val split = document.data?.get("pick_up_item_addr_end").toString().split("!")
                 addr1.setText(split[0])
                 addr2.setText(split[1])
                 re.setText(document.data?.get("pick_up_item_request").toString())
-                val lat = document.data?.get("startX").toString()
-                val lon = document.data?.get("startY").toString()
+                val start_lat = document.data?.get("startX").toString()
+                val start_lon = document.data?.get("startY").toString()
+                val end_lat = document.data?.get("endX").toString()
+                val end_lon = document.data?.get("endY").toString()
+
                 val lat_picker: ArrayList<Double> =
                     document.data?.get("picking_x") as ArrayList<Double>
                 val lon_picker: ArrayList<Double> =
@@ -150,16 +153,16 @@ class UsingCheckActivity : AppCompatActivity() {
                 if (lat_picker != null && lon_picker != null) {
                     getRoutes(
                         supplementService,
-                        lon_picker[0],
-                        lat_picker[0],
-                        lon.toDouble(),
-                        lat.toDouble(),
+                        start_lon.toDouble(),
+                        start_lat.toDouble(),
+                        end_lon.toDouble(),
+                        end_lat.toDouble(),
                         "l7xx961891362ed44d06a261997b67e5ace6",
                         2
                     )
                     val t = Thread() {
-                        val pointS = TMapPoint(lat_picker[0], lon_picker[0])
-                        val pointE = TMapPoint(lat.toDouble(), lon.toDouble())
+                        val pointS = TMapPoint( start_lat.toDouble(),  start_lon.toDouble())
+                        val pointE = TMapPoint(end_lat.toDouble(), end_lon.toDouble())
 
                         val markerItem1 = TMapMarkerItem()
                         val markerItem2 = TMapMarkerItem()
@@ -237,52 +240,60 @@ class UsingCheckActivity : AppCompatActivity() {
             if (snapshot != null && snapshot.exists()) {
                 Log.d("change status", "변화 감지.")
 
-                val result = snapshot.data!!.get("ready_flag_1").toString()
+                val result = snapshot.data!!.get("ready_flag_2").toString()
+                val flag = snapshot.data!!.get("pick_up_check_flag").toString()
 
-                //x,y 값 업데이트 되는지 확인하기
-                val lat_result: ArrayList<Double> =
-                    snapshot.data!!.get("picking_x") as ArrayList<Double>
-                val lon_result: ArrayList<Double> =
-                    snapshot.data!!.get("picking_y") as ArrayList<Double>
+                if(flag=="1"){
+                    finish()
+                    Log.d("아직오면 안대!!!","안대!!")
 
-                if (lat_result != null) {
-                    Log.d("실시간 위치 탐색 x", lat_result.javaClass.name)
-                    if (lon_result != null) {
-                        Log.d("실시간 위치 탐색 y", lon_result.javaClass.name)
+                }else{
+                    //x,y 값 업데이트 되는지 확인하기
+                    val lat_result: ArrayList<Double> =
+                        snapshot.data!!.get("doing_x") as ArrayList<Double>
+                    val lon_result: ArrayList<Double> =
+                        snapshot.data!!.get("doing_y") as ArrayList<Double>
+
+                    if (lat_result != null) {
+                        Log.d("실시간 위치 탐색 x", lat_result.javaClass.name)
+                        if (lon_result != null) {
+                            Log.d("실시간 위치 탐색 y", lon_result.javaClass.name)
+                        }
                     }
-                }
 //                Log.d("실시간 위치 탐색 y", lon_result.toString())
 //                Log.d("실시간 위치 탐색 y", lat_result.get(lat_result.lastIndex).javaClass.name)
 //                Log.d("실시간 위치 탐색 y", lat_result.get(lat_result.lastIndex).toString())
 
-                //배달자 마커 찍어주기
-                val bitmap3 = BitmapFactory.decodeResource(this.resources, R.drawable.delivery_pin)
-                val markerItem3 = TMapMarkerItem()
-                markerItem3.icon = bitmap3 // 마커 아이콘 지정
-                markerItem3.setPosition(0.5f, 1.0f) // 마커의 중심점을 중앙, 하단으로 설정
-                markerItem3.tMapPoint = TMapPoint(
-                    lat_result.get(lat_result.lastIndex),
-                    lon_result.get(lon_result.lastIndex)
-                )
-                // 마커의 좌표 지정
+                    //배달자 마커 찍어주기
+                    val bitmap3 = BitmapFactory.decodeResource(this.resources, R.drawable.delivery_pin)
+                    val markerItem3 = TMapMarkerItem()
+                    markerItem3.icon = bitmap3 // 마커 아이콘 지정
+                    markerItem3.setPosition(0.5f, 1.0f) // 마커의 중심점을 중앙, 하단으로 설정
+                    markerItem3.tMapPoint = TMapPoint(
+                        lat_result.get(lat_result.lastIndex),
+                        lon_result.get(lon_result.lastIndex)
+                    )
+                    // 마커의 좌표 지정
 
-                tmapView!!.addMarkerItem(
-                    "markerItem3",
-                    markerItem3
-                ) // 지도에 마커 추가
+                    tmapView!!.addMarkerItem(
+                        "markerItem3",
+                        markerItem3
+                    ) // 지도에 마커 추가
 
 
 //                tmapView!!.setCenterPoint(
 //                    markerItem3.latitude,
 //                    markerItem3.longitude
 //                )
-                if (result == "1") {
+                    if (result == "1") {
 
-                    finish_button.visibility = View.VISIBLE
-                } else {//변화가 없으면 실행되는 코드
-                    Log.d("change status", "변화없음.")
-                    return@addSnapshotListener
+                        finish_button.visibility = View.VISIBLE
+                    } else {//변화가 없으면 실행되는 코드
+                        Log.d("change status", "변화없음.")
+                        return@addSnapshotListener
+                    }
                 }
+
 
             } else {
                 Log.d(ContentValues.TAG, "Current data: null")
@@ -301,10 +312,8 @@ class UsingCheckActivity : AppCompatActivity() {
         finish_button.setOnClickListener {
             Log.d("좋아", "!!!!!!!")
 
-            docRef.document(data.toString()).update("pick_up_check_flag", "2")
-            val intent1 = Intent(this, UsingCheckActivity_2::class.java)
-            intent1.putExtra("data",data)
-            startActivity(intent1)
+            docRef.document(data.toString()).update("pick_up_check_flag", "3")
+
         }
 
         maps.addView(tmapView)

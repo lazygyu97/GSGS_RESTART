@@ -28,9 +28,7 @@ class SuccessRequestActivity : AppCompatActivity() {
         // super.onBackPressed()
     }
 
-    fun Chat(arrayList: java.util.ArrayList<*>) {
 
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +37,7 @@ class SuccessRequestActivity : AppCompatActivity() {
         val db = Firebase.firestore
         auth = Firebase.auth
 
-        var doing = DoingRequestActivity()
+
         val start = intent.getStringExtra("start")
         val end = intent.getStringExtra("end")
         val time = intent.getStringExtra("name")
@@ -48,32 +46,33 @@ class SuccessRequestActivity : AppCompatActivity() {
         val txt_start = findViewById<TextView>(R.id.start)
         val txt_end = findViewById<TextView>(R.id.end)
         val btn_back = findViewById<Button>(R.id.btn_back)
-        val quit=DoingRequestActivity()
+
         txt_start.setText(start.toString())
         txt_end.setText(end.toString())
         //1이 받은 사람, 2가 피커
-        val docRef3 = db.collection("pick_up_request")
-        val pick_data = docRef3.document(time.toString())
-        pick_data.get().addOnSuccessListener { document ->
-            if (document != null) {
-                Log.d(TAG, "DocumentSnapshot data: ${document.data}")
-                document["uid"].toString()
-                document["uid_2"].toString()
-                addUserToDatabase(time.toString(),document["uid"].toString())
-                addUserToDatabase(time.toString(),document["uid_2"].toString())
-
-            } else {
-                Log.d(TAG, "No such document")
-            }
-        }
-            .addOnFailureListener { exception ->
-                Log.d(TAG, "get failed with ", exception)
-            }
+//        val docRef3 = db.collection("pick_up_request")
+//        val pick_data = docRef3.document(time.toString())
+//        pick_data.get().addOnSuccessListener { document ->
+//            if (document != null) {
+//                Log.d(TAG, "DocumentSnapshot data: ${document.data}")
+//                document["uid"].toString()
+//                document["uid_2"].toString()
+////                addUserToDatabase(time.toString(),document["uid"].toString())
+////                addUserToDatabase(time.toString(),document["uid_2"].toString())
+//
+//            } else {
+//                Log.d(TAG, "No such document")
+//            }
+//        }
+//            .addOnFailureListener { exception ->
+//                Log.d(TAG, "get failed with ", exception)
+//            }
 
         btn_back.setOnClickListener {
             Toast.makeText(this, "홈 화면으로 이동합니다!", Toast.LENGTH_LONG).show()
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
+            finish()
 
 
 
@@ -83,9 +82,9 @@ class SuccessRequestActivity : AppCompatActivity() {
 
     }
 
-    private fun addUserToDatabase(time:String,  uid: String) {
-        mDbRef = FirebaseDatabase.getInstance().getReference()
-        mDbRef.child("ChatList").child(time).setValue(ChatUser(uid))
-
-    }
+//    private fun addUserToDatabase(time:String,  uid: String) {
+//        mDbRef = FirebaseDatabase.getInstance().getReference()
+//        mDbRef.child("ChatList").child(time).setValue(ChatUser(uid))
+//
+//    }
 }
